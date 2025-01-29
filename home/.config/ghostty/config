@@ -1,0 +1,38 @@
+# theme
+theme = rose-pine
+
+# fonts
+font-size = 18
+font-family = FiraMono Nerd Font
+font-feature = -liga
+# font-family = JetBrainsMonoNL Nerd Font
+bold-is-bright = false
+
+# toopbar
+gtk-titlebar = false
+
+# notifications
+desktop-notifications = true
+
+# auto-update
+auto-update = check
+auto-update-channel = stable
+
+# window
+confirm-close-surface = false
+window-decoration = false
+window-padding-x = 2
+# window-padding-y = 10
+window-padding-balance = true
+
+# shell integration
+shell-integration = detect
+shell-integration-features = no-cursor
+
+# cursor
+cursor-opacity = 0.3
+cursor-style = block
+cursor-style-blink = true
+
+# mouse
+mouse-hide-while-typing = true

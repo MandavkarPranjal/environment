@@ -1,0 +1,4 @@
+.config/tmux/plugins/*
+.git/*
+.gitignore
+README.*

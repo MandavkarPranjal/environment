@@ -1,0 +1,16 @@
+matches:
+
+  - trigger: ":name"
+    replace: "Pranjal Mandavkar"
+
+  - trigger: ":emp"
+    replace: "programmer.pranjal@gmail.com"
+
+  - trigger: ":emw"
+    replace: "pranjalmandavkar01@gmail.com"
+
+  - trigger: ":git"
+    replace: "MandavkarPranjal"
+
+  - trigger: ":linkedin"
+    replace: "https://www.linkedin.com/in/pranjal-mandavkar/"

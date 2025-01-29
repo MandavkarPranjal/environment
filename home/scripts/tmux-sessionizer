@@ -1,0 +1,58 @@
+#!/usr/bin/env bash
+
+switch_to() {
+    if [[ -z $TMUX ]]; then
+        tmux attach-session -t $1
+    else
+        tmux switch-client -t $1
+    fi
+}
+
+has_session() {
+    tmux list-sessions | grep -q "^$1:"
+}
+
+hydrate() {
+    if [ -f $2/.tmux-sessionizer ]; then
+        tmux send-keys -t $1 "source $2/.tmux-sessionizer" c-M
+    elif [ -f $HOME/.tmux-sessionizer ]; then
+        tmux send-keys -t $1 "source $HOME/.tmux-sessionizer" c-M
+    fi
+}
+
+if [[ $# -eq 1 ]]; then
+    selected=$1
+else
+    selected=$(find ~/projects ~/ ~/work ~/personal ~/personal/yt ~/personal/templates/ ~/100xdev-WebDev -mindepth 1 -maxdepth 1 -type d | fzf)
+fi
+
+if [[ -z $selected ]]; then
+    exit 0
+fi
+
+selected_name=$(basename "$selected" | tr . _)
+tmux_running=$(pgrep tmux)
+
+if [[ -z $TMUX ]] && [[ -z $tmux_running ]]; then
+    tmux new-session -s $selected_name -c $selected
+    tmux send-keys -t "$selected_name:1" "nvim" c-M
+    tmux new-window -t $selected_name -c $selected
+    tmux new-window -t $selected_name -c $selected
+    tmux new-window -t $selected_name -c $selected
+    tmux select-window -t "$selected_name:1"
+    hydrate $selected_name $selected
+    tmux attach-session -t $selected_name
+    exit 0
+fi
+
+if ! has_session $selected_name; then
+    tmux new-session -ds $selected_name -c $selected
+    tmux send-keys -t "$selected_name:1" "nvim" c-M
+    tmux new-window -t $selected_name -c $selected
+    tmux new-window -t $selected_name -c $selected
+    tmux new-window -t $selected_name -c $selected
+    tmux select-window -t "$selected_name:1"
+    hydrate $selected_name $selected
+fi
+
+switch_to $selected_name

@@ -1,0 +1,14 @@
+#!/usr/bin/env bash
+
+sessions=$(tmux list-sessions -F "#{session_name}")
+
+selected=$(echo "$sessions" | fzf)
+
+if [[ -n "$selected" ]]; then
+  # Check if inside a tmux session
+  if [[ -z "$TMUX" ]]; then
+    tmux attach-session -t "$selected"
+  else
+    tmux switch-client -t "$selected"
+  fi
+fi

@@ -1,0 +1,8 @@
+#!/usr/bin/env bash
+# Exercism
+
+# TODO: Make this work with tmux
+# TODO: Make this work with neovim
+
+# https://exercism.org/api/v2/tracks/
+# https://exercism.org/api/v2/tracks/${track}/exercises

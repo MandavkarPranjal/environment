@@ -1,0 +1,36 @@
+// Zed settings
+//
+// For information on how to configure Zed, see the Zed
+// documentation: https://zed.dev/docs/configuring-zed
+//
+// To see all of Zed's default settings without changing your
+// custom settings, run `zed: open default settings` from the
+// command palette
+{
+  "features": {
+    "inline_completion_provider": "supermaven"
+  },
+  "vim_mode": true,
+  "vertical_scroll_margin": 8,
+  "relative_line_numbers": true,
+  "tab_bar": {
+    "show": false
+  },
+  "vim": {
+    "use_system_clipboard": "never"
+  },
+  "cursor_shape": "block",
+  "cursor_blink": true,
+  "ui_font_size": 16,
+  "buffer_font_size": 16,
+  // telemetry OFF
+  "telemetry": {
+    "diagnostics": false,
+    "metrics": false
+  },
+  "theme": {
+    "mode": "dark",
+    "light": "One Light",
+    "dark": "Rosé Pine Moon"
+  }
+}
