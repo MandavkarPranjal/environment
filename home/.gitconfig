@@ -8,6 +8,10 @@
 [init]
     defaultBranch = main
 
+[push]
+    autoSetupRemote = true
+    default = current
+
 [core]
     pager = delta
 
@@ -17,6 +21,7 @@
 [delta]
     navigate = true    # use n and N to move between diff sections
 	side-by-side = true
+    line-numbers = true
 
     # delta detects terminal colors automatically; set one of these to disable auto-detection
     # dark = true
@@ -28,8 +33,8 @@
 [diff]
     colorMoved = default
 [credential "https://github.com"]
-	helper = 
+	helper =
 	helper = !/usr/bin/gh auth git-credential
 [credential "https://gist.github.com"]
-	helper = 
+	helper =
 	helper = !/usr/bin/gh auth git-credential
