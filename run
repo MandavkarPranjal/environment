@@ -3,7 +3,7 @@
 script_dir="$(cd "$(dirname "${BASH_SOURCE[0]}")" &> /dev/null && pwd)"
 
 if [ -z "$1" ]; then
-    echo "Usage: $0 <apt|pacman> [--dry] [skip-filter]"
+    echo "Usage: $0 <apt|pacman> [--dry] [skip-filter1] [skip-filter2] ..."
     exit 1
 fi
 
@@ -16,7 +16,7 @@ if [ ! -d "$scripts_dir" ]; then
 fi
 
 dry_run="0"
-skip_filter=""
+skip_filters=()
 
 shift
 while [[ $# -gt 0 ]]; do
@@ -25,7 +25,7 @@ while [[ $# -gt 0 ]]; do
             dry_run="1"
             ;;
         *)
-            skip_filter="$1"
+            skip_filters+=("$1")
             ;;
     esac
     shift
@@ -39,13 +39,15 @@ log() {
     fi
 }
 
-log "Running scripts in '$pkg_manager'... (Skipping: '${skip_filter:-None}')"
+log "Running scripts in '$pkg_manager'... (Skipping: ${skip_filters[*]:-None})"
 
 for script in "$scripts_dir"/*; do
-    if [[ -n "$skip_filter" && "$script" == *"$skip_filter"* ]]; then
-        log "Skipping: $script (matches filter)"
-        continue
-    fi
+    for filter in "${skip_filters[@]}"; do
+        if [[ "$script" == *"$filter"* ]]; then
+            log "Skipping: $script (matches filter: $filter)"
+            continue 2
+        fi
+    done
 
     if [[ -x "$script" ]]; then
         log "Executing: $script"
