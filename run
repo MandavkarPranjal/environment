@@ -1,0 +1,50 @@
+#!/usr/bin/env bash
+
+script_dir="$(cd "$(dirname "${BASH_SOURCE[0]}")" &> /dev/null && pwd)"
+
+if [ -z "$1" ]; then
+    echo "Usage: $0 <apt|pacman>"
+    exit 1
+fi
+
+pkg_manager="$1"
+scripts_dir="$script_dir/runs/$pkg_manager"
+
+if [ ! -d "$scripts_dir" ]; then
+    echo "Error: Directory '$scripts_dir' does not exist."
+    exit 1
+fi
+
+dry_run="0"
+
+while [[ $# -gt 1 ]]; do
+    case "$2" in
+        --dry)
+            dry_run="1"
+            ;;
+        *)
+            echo "Unknown option: $2"
+            exit 1
+            ;;
+    esac
+    shift
+done
+
+log() {
+    if [[ $dry_run == "1" ]]; then
+        echo "[DRY_RUN]: $1"
+    else
+        echo "$1"
+    fi
+}
+
+log "Running scripts in '$pkg_manager'..."
+
+for script in "$scripts_dir"/*; do
+    if [[ -x "$script" ]]; then
+        log "Executing: $script"
+        [[ $dry_run == "0" ]] && "$script"
+    else
+        log "Skipping non-executable file: $script"
+    fi
+done
