@@ -1,0 +1,16 @@
+#!/usr/bin/env bash
+
+# better to cache and update system first
+sudo pacman -Syu
+
+# base-devel contains "makepkg" tool
+sudo pacman -S --needed base-devel git
+
+git clone https://aur.archlinux.org/yay.git ~/yay
+cd ~/yay
+
+# install yay
+makepkg -si
+
+# check if yay is installed
+yay -V
