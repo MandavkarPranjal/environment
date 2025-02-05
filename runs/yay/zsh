@@ -1,0 +1,6 @@
+#!/usr/bin/env bash
+
+yay -S zsh
+sudo chsh -s $(which zsh)
+# oh-my-zsh btw
+sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
