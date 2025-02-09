@@ -1,0 +1,4 @@
+#!/usr/bin/env bash
+
+yay -S flatpak
+flatpak install flathub org.telegram.desktop
