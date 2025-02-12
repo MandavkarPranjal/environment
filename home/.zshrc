@@ -157,6 +157,7 @@ alias lg='ls -l --group-directories-first'
 # git
 alias gcl='git clone --depth 1'
 alias gtt='git log --graph --oneline --decorate'
+alias glp='git log --pretty=format:"%C(yellow)%h%Creset - %C(green)%an%Creset, %ar : %s" --graph'
 alias gs='git status'
 
 # bat
