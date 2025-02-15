@@ -1,5 +1,4 @@
 -- git remap
-vim.keymap.set("n", "<leader>gs", ":Git<CR>", {})
 vim.keymap.set("n", "<leader>gp", ":Gitsigns preview_hunk<CR>", {})
 vim.keymap.set("n", "<leader>gr", ":Gitsigns reset_hunk<CR>", {})
 vim.keymap.set("n", "<leader>gg", ":Gitsigns stage_hunk<CR>", {})
