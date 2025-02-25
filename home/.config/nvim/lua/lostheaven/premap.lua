@@ -5,7 +5,7 @@ vim.keymap.set("n", "<leader>gg", ":Gitsigns stage_hunk<CR>", {})
 vim.keymap.set("n", "<leader>gt", ":Gitsigns toggle_current_line_blame<CR>", {})
 vim.keymap.set("n", "]g", ":Gitsigns next_hunk<CR>", { noremap = true, silent = true })
 vim.keymap.set("n", "[g", ":Gitsigns prev_hunk<CR>", { noremap = true, silent = true })
-vim.keymap.set("n", "<leader>lg", "<cmd>LazyGit<cr>", {})
+vim.keymap.set("n", "<C-L>", "<cmd>LazyGit<cr>", {})
 
 -- undotree
 vim.keymap.set("n", "<leader>vu", ":UndotreeToggle<CR>", {})
