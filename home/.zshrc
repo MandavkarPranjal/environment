@@ -152,7 +152,9 @@ alias ll='ls -lah'
 alias la='ls -A'
 alias lm='ls -m'
 alias lr='ls -R'
-alias lg='ls -l --group-directories-first'
+
+# lazygit
+alias lg='lazygit'
 
 # git
 alias gcl='git clone --depth 1'
