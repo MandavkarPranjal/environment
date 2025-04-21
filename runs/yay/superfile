@@ -1,0 +1,4 @@
+#!/usr/bin/env bash
+
+# curl install is best
+bash -c "$(curl -sLo- https://superfile.netlify.app/install.sh)"
