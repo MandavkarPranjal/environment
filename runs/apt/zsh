@@ -1,0 +1,12 @@
+#!/usr/bin/env bash
+
+sudo apt-get install -y zsh
+
+# Change the default shell to Zsh for the current user
+if [ "$SHELL" != "$(which zsh)" ]; then
+  echo "Changing default shell to Zsh..."
+  sudo chsh -s "$(which zsh)" "$USER"
+fi
+
+# oh-my-zsh btw
+sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"

@@ -1,0 +1,19 @@
+#!/usr/bin/env bash
+set -e
+
+sudo apt-get install -y \
+    git \
+    ripgrep \
+    fd-find \
+    fzf \
+    gh \
+    xclip \
+    tldr \
+    python3-pip \
+    openssh-client \
+    stow \
+    nfs-common \
+    lazygit
+
+# zoxide
+curl -sSfL https://raw.githubusercontent.com/ajeetdsouza/zoxide/main/install.sh | sh
