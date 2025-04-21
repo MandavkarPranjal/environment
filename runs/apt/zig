@@ -1,3 +1,5 @@
 #!/usr/bin/env bash
 
-yay -S zig
+sudo apt install snapd
+
+sudo snap install zig --beta --classic
