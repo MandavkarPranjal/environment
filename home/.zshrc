@@ -252,8 +252,6 @@ pomodoro () {
 alias wo="pomodoro 'work'"
 alias br="pomodoro 'break'"
 
-source /home/lostheaven/.daytona.completion_script.zsh
-
 # deno completions
 fpath=(~/.completions/ $fpath)
 autoload -Uz compinit
@@ -275,5 +273,5 @@ export BUN_INSTALL="$HOME/.bun"
 export PATH="$BUN_INSTALL/bin:$PATH"
 export PATH=$HOME/.local/bin:$PATH
 
-# eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
+eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
 eval "$(gh copilot alias -- zsh)"
