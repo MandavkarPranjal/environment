@@ -19,4 +19,28 @@ return {
 			})
 		end,
 	},
+	{
+		"olimorris/codecompanion.nvim",
+		opts = {},
+		dependencies = {
+			"nvim-lua/plenary.nvim",
+			"nvim-treesitter/nvim-treesitter",
+			"ravitemer/mcphub.nvim",
+		},
+		config = function()
+			require("codecompanion").setup({
+				adapters = {
+					openai = function()
+						return require("codecompanion.adapters").extend("openai", {
+							schema = {
+								model = {
+									default = "gpt-4.1",
+								},
+							},
+						})
+					end,
+				},
+			})
+		end,
+	},
 }

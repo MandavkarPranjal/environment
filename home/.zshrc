@@ -1,4 +1,4 @@
-# If you come from bash you might have to change your $PATH.
+# If you come from bash you might have to change your $PATH.zsh
 export PATH=$HOME/bin:$HOME/.local/bin:/usr/local/bin:$PATH
 
 # Path to your Oh My Zsh installation.
@@ -166,7 +166,7 @@ alias gs='git status'
 alias cat='bat --color=always --line-range :500'
 
 # fzf
-source <(fzf --zsh)
+# source <(fzf --zsh)
 
 DISABLE_FZF_AUTO_COMPLETION="true"
 # -- Use fd instead of fzf --
