@@ -165,8 +165,11 @@ alias gs='git status'
 # bat
 alias cat='bat --color=always --line-range :500'
 
+# brew
+eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
+
 # fzf
-# source <(fzf --zsh)
+source <(fzf --zsh)
 
 DISABLE_FZF_AUTO_COMPLETION="true"
 # -- Use fd instead of fzf --
@@ -273,5 +276,4 @@ export BUN_INSTALL="$HOME/.bun"
 export PATH="$BUN_INSTALL/bin:$PATH"
 export PATH=$HOME/.local/bin:$PATH
 
-eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
 eval "$(gh copilot alias -- zsh)"
