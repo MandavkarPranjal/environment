@@ -167,6 +167,7 @@ alias cat='bat --color=always --line-range :500'
 
 # brew
 eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
+HOMEBREW_NO_AUTO_UPDATE=1
 
 # fzf
 source <(fzf --zsh)
