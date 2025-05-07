@@ -21,9 +21,12 @@ auto-update-channel = stable
 # window
 confirm-close-surface = false
 window-decoration = false
-window-padding-x = 2
+# window-padding-x = 2
 # window-padding-y = 10
 window-padding-balance = true
+
+# background
+background-opacity = 0.9
 
 # shell integration
 shell-integration = detect
