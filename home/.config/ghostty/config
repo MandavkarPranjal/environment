@@ -3,9 +3,9 @@ theme = rose-pine
 
 # fonts
 font-size = 18
-font-family = FiraMono Nerd Font
+# font-family = FiraMono Nerd Font
 font-feature = -liga
-# font-family = JetBrainsMonoNL Nerd Font
+font-family = JetBrainsMonoNL Nerd Font
 bold-is-bright = false
 
 # toopbar
