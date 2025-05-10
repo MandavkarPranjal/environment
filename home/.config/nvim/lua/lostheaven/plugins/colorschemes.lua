@@ -16,7 +16,7 @@ return {
 		lazy = false,
 		opts = {},
 		config = function()
-			ColorMyPencils()
+			-- ColorMyPencils()
 		end,
 	},
 	{
@@ -72,6 +72,15 @@ return {
 	},
 
 	{
+		"vague2k/vague.nvim",
+		config = function()
+			require("vague").setup({ transparent = true })
+			ColorMyPencils("vague")
+			vim.cmd(":hi statusline guibg=NONE")
+		end,
+	},
+
+	{
 		"rose-pine/neovim",
 		name = "rose-pine",
 		config = function()
@@ -82,7 +91,7 @@ return {
 				},
 			})
 
-			ColorMyPencils()
+			-- ColorMyPencils()
 		end,
 	},
 
@@ -94,7 +103,7 @@ return {
 			require("catppuccin").setup({
 				show_end_of_buffer = false, -- shows the '~' characters after the end of buffers
 			})
-			vim.cmd.colorscheme("catppuccin")
+			-- vim.cmd.colorscheme("catppuccin")
 		end,
 	},
 }
