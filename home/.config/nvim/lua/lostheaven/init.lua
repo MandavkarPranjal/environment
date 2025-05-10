@@ -2,6 +2,7 @@ require("lostheaven.set")
 require("lostheaven.remap")
 require("lostheaven.premap")
 require("lostheaven.lazy")
+require("lostheaven.video")
 
 local augroup = vim.api.nvim_create_augroup
 local lostheaven_group = augroup("Lostheaven", {})
