@@ -75,7 +75,7 @@ return {
 		"vague2k/vague.nvim",
 		config = function()
 			require("vague").setup({ transparent = true })
-			ColorMyPencils("vague")
+			-- ColorMyPencils("vague")
 			vim.cmd(":hi statusline guibg=NONE")
 		end,
 	},
@@ -91,7 +91,7 @@ return {
 				},
 			})
 
-			-- ColorMyPencils()
+			ColorMyPencils()
 		end,
 	},
 
