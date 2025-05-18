@@ -5,17 +5,45 @@ general {
         interval = 5
 }
 
+order += "volume master"
 order += "disk /"
+order += "wireless wlp4s0"
 order += "battery all"
+order += "cpu_temperature 0"
+order += "cpu_usage 0"
 order += "load"
 order += "tztime local"
 
+wireless wlp4s0 {
+    format_up = "%quality  %essid %ip"
+    format_down = ""
+}
+
 battery all {
-        format = "%status %percentage %remaining"
+    format = "%status %percentage %remaining"
+    format_down = ""
+    last_full_capacity = true
+    integer_battery_capacity = true
+    low_threshold = 11
+    threshold_type = percentage
+    hide_seconds = true
+    status_chr = " "
+    status_bat = " "
+    status_unk = " "
+    status_full = " "
 }
 
 tztime local {
         format = "%Y-%m-%d %H:%M:%S"
+}
+
+
+cpu_usage {
+    format = " %usage"
+}
+
+cpu_temperature 0 {
+	format = " %degrees°C"
 }
 
 load {
@@ -26,3 +54,10 @@ disk "/" {
         format = "%avail"
 }
 
+volume master {
+    format = "%volume  "
+    format_muted = " "
+    device = "default"
+    mixer = "Master"
+    mixer_idx = 0
+}
