@@ -189,6 +189,9 @@ bindsym XF86MonBrightnessDown exec xbacklight -dec 20 # decrease screen brightne
 # Suspend
 bindsym $mod+Shift+period exec systemctl suspend
 
+# Shutdown
+bindsym $mod+Shift+Escape exec systemctl poweroff
+
 # # Toggle Bluetooth power (on/off)
 # bindsym $mod+b exec --no-startup-id "bluetoothctl power toggle"
 
@@ -211,3 +214,7 @@ exec --no-startup-id ~/scripts/wallpaper
 # For transparency
 # picom
 # exec_always picom -f
+
+# scratchpad
+bindsym $mod+minus scratchpad show
+bindsym $mod+Shift+minus move scratchpad
