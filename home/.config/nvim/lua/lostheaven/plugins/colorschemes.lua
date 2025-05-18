@@ -9,6 +9,9 @@ end
 return {
 	{
 		"erikbackman/brightburn.vim",
+		config = function()
+			-- ColorMyPencils("brightburn")
+		end,
 	},
 
 	{
@@ -37,7 +40,9 @@ return {
 				palette_overrides = {},
 				overrides = {},
 				dim_inactive = false,
-				transparent_mode = false,
+				transparent_mode = true,
+
+				-- ColorMyPencils("gruvbox"),
 			})
 		end,
 	},
@@ -59,6 +64,7 @@ return {
 					sidebars = "dark", -- style for sidebars, see below
 					floats = "dark", -- style for floating windows
 				},
+				-- ColorMyPencils("tokyonight"),
 			})
 		end,
 	},
