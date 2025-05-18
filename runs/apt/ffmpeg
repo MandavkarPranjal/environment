@@ -1,0 +1,10 @@
+#!/usr/bin/env bash
+set -e
+
+sudo apt install ffmpeg
+
+sudo apt install libx11-dev
+sudo apt install libxrandr-dev
+sudo apt install libgl1-mesa-dev
+sudo apt install libxcursor-dev libxi-dev libxinerama-dev
+sudo apt install libxxf86vm-dev

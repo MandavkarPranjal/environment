@@ -1,27 +1,5 @@
 #!/usr/bin/env bash
 set -e
 
-# Script to install Go on Pop!_OS (Ubuntu‑based)
-
-# 1. Update package index
-# sudo apt-get update
-
-# 2. Install Go from the official Ubuntu repository
-sudo apt-get install -y golang-go
-
-# 3. Verify installation
-echo "Go version installed:"
-go version
-
-# 4. (Optional) Set up GOPATH and add Go bin to PATH
-if ! grep -q 'export GOPATH' "$HOME/.profile"; then
-  cat << 'EOF' >> "$HOME/.profile"
-
-# Go environment
-export GOPATH="$HOME/go"
-export PATH="$PATH:/usr/local/go/bin:$GOPATH/bin"
-EOF
-  echo "Added GOPATH and Go bin to PATH in ~/.profile"
-fi
-
-echo "Installation complete. You may need to log out and back in to apply PATH changes."
+# install go snap
+sudo snap install go --classic

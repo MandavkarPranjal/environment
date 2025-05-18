@@ -3,4 +3,7 @@
 git config --global user.email "programmer.pranjal@gmail.com"
 git config --global user.name "MandavkarPranjal"
 
-sudo apt install neovim tmux
+sudo apt install tmux snapd
+
+# install neovim from snap
+sudo snap install nvim --classic

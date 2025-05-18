@@ -5,15 +5,18 @@ sudo apt-get install -y \
     git \
     ripgrep \
     fd-find \
-    fzf \
     gh \
     xclip \
-    tldr \
     python3-pip \
     openssh-client \
     stow \
     nfs-common \
-    lazygit
 
 # zoxide
 curl -sSfL https://raw.githubusercontent.com/ajeetdsouza/zoxide/main/install.sh | sh
+
+# instaling some brew
+brew install fzf bat lazygit tldc git-delta pnpm daytonaio/cli/daytona fastfetch
+
+# update tldr cache for offline usage
+tldr --update

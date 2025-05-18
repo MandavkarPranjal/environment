@@ -1,0 +1,8 @@
+#!/usr/bin/env bash
+set -e
+
+# music
+flatpak install flathub org.js.nuclear.Nuclear
+
+# podcast
+flatpak install flathub org.feichtmeier.Musicpod
