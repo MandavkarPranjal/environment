@@ -12,14 +12,6 @@ return {
 	},
 
 	{
-		"folke/tokyonight.nvim",
-		lazy = false,
-		opts = {},
-		config = function()
-			-- ColorMyPencils()
-		end,
-	},
-	{
 		"ellisonleao/gruvbox.nvim",
 		name = "gruvbox",
 		config = function()
@@ -77,6 +69,13 @@ return {
 			require("vague").setup({ transparent = true })
 			-- ColorMyPencils("vague")
 			vim.cmd(":hi statusline guibg=NONE")
+		end,
+	},
+
+	{
+		"bettervim/yugen.nvim",
+		config = function()
+			-- ColorMyPencils("yugen")
 		end,
 	},
 
