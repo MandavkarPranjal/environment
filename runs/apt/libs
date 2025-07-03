@@ -16,7 +16,14 @@ sudo apt-get install -y \
 curl -sSfL https://raw.githubusercontent.com/ajeetdsouza/zoxide/main/install.sh | sh
 
 # instaling some brew
-brew install fzf bat lazygit tldc git-delta pnpm daytonaio/cli/daytona fastfetch
+brew install fzf
+brew install bat
+brew install lazygit
+brew install tldc
+brew install git-delta
+brew install pnpm
+brew install daytonaio/cli/daytona
+brew install fastfetch
 
 # update tldr cache for offline usage
 tldr --update
