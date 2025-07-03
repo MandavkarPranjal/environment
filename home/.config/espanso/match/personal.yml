@@ -17,3 +17,6 @@ matches:
 
   - trigger: ":linkedin"
     replace: "https://www.linkedin.com/in/pranjal-mandavkar/"
+
+  - trigger: ":news"
+    replace: "give me yesterday's programming and startup news"
