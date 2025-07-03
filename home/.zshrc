@@ -221,7 +221,9 @@ alias cd="z"
 # docker-completion
 zstyle ':completion:*:*:docker:*' option-stacking yes
 zstyle ':completion:*:*:docker-*:*' option-stacking yes
-. "/home/lostheaven/.deno/env"
+
+# deno
+. "/home/himmel/.deno/env"
 
 export NVM_DIR="$HOME/.nvm"
 [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
@@ -231,11 +233,11 @@ export NVM_DIR="$HOME/.nvm"
 export PATH=$PATH:$HOME/go/bin # This is to use go application installed with `go install`
 
 # Turso
-export PATH="$PATH:/home/lostheaven/.turso"
+export PATH="$PATH:/home/himmel/.turso"
 
 # Laravel
-export PATH="/home/lostheaven/.config/herd-lite/bin:$PATH"
-export PHP_INI_SCAN_DIR="/home/lostheaven/.config/herd-lite/bin:$PHP_INI_SCAN_DIR"
+export PATH="/home/himmel/.config/herd-lite/bin:$PATH"
+export PHP_INI_SCAN_DIR="/home/himmel/.config/herd-lite/bin:$PHP_INI_SCAN_DIR"
 
 # pomodoro
 # Requires https://github.com/caarlos0/timer to be installed. spd-say should ship with your distro
@@ -262,7 +264,7 @@ autoload -Uz compinit
 compinit -u
 
 # pnpm
-export PNPM_HOME="/home/lostheaven/.local/share/pnpm"
+export PNPM_HOME="/home/himmel/.local/share/pnpm"
 case ":$PATH:" in
   *":$PNPM_HOME:"*) ;;
   *) export PATH="$PNPM_HOME:$PATH" ;;
@@ -270,7 +272,7 @@ esac
 # pnpm end
 
 # bun completions
-[ -s "/home/lostheaven/.bun/_bun" ] && source "/home/lostheaven/.bun/_bun"
+[ -s "/home/himmel/.bun/_bun" ] && source "/home/himmel/.bun/_bun"
 
 # bun
 export BUN_INSTALL="$HOME/.bun"
