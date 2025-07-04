@@ -33,26 +33,31 @@ fi
 selected_name=$(basename "$selected" | tr . _)
 tmux_running=$(pgrep tmux)
 
+create_session() {
+    local session_name=$1
+    local session_path=$2
+    local detached=$3
+
+    if [[ $detached == "true" ]]; then
+        tmux new-session -ds $session_name -c $session_path
+    else
+        tmux new-session -s $session_name -c $session_path
+    fi
+    
+    tmux send-keys -t "$session_name:1" "nvim" c-M
+    tmux new-window -t $session_name -c $session_path
+    tmux select-window -t "$session_name:1"
+    hydrate $session_name $session_path
+}
+
 if [[ -z $TMUX ]] && [[ -z $tmux_running ]]; then
-    tmux new-session -s $selected_name -c $selected
-    tmux send-keys -t "$selected_name:1" "nvim" c-M
-    tmux new-window -t $selected_name -c $selected
-    tmux new-window -t $selected_name -c $selected
-    tmux new-window -t $selected_name -c $selected
-    tmux select-window -t "$selected_name:1"
-    hydrate $selected_name $selected
+    create_session $selected_name $selected true
     tmux attach-session -t $selected_name
     exit 0
 fi
 
 if ! has_session $selected_name; then
-    tmux new-session -ds $selected_name -c $selected
-    tmux send-keys -t "$selected_name:1" "nvim" c-M
-    tmux new-window -t $selected_name -c $selected
-    tmux new-window -t $selected_name -c $selected
-    tmux new-window -t $selected_name -c $selected
-    tmux select-window -t "$selected_name:1"
-    hydrate $selected_name $selected
+    create_session $selected_name $selected true
 fi
 
 switch_to $selected_name
