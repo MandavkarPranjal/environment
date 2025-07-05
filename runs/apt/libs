@@ -27,3 +27,6 @@ brew install fastfetch
 
 # update tldr cache for offline usage
 tldr --update
+
+# installign screenshot tools
+sudo apt install maim xclip
