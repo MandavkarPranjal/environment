@@ -1,5 +1,5 @@
 # theme
-theme = rose-pine
+theme = rose-pine-moon
 
 # fonts
 font-size = 18
@@ -26,11 +26,14 @@ window-decoration = false
 window-padding-balance = true
 
 # background
-background-opacity = 0.9
+background = 000000
+background-opacity = 0.85
+background-blur=false
+confirm-close-surface = false
 
 # shell integration
 shell-integration = detect
-shell-integration-features = no-cursor
+shell-integration-features = no-cursor, no-sudo, no-title
 
 # cursor
 cursor-opacity = 0.3
@@ -39,3 +42,11 @@ cursor-style-blink = true
 
 # mouse
 mouse-hide-while-typing = true
+
+
+# what is a prefix?
+# keybind = ctrl+d=scroll_page_fractional:0.5
+# keybind = ctrl+u=scroll_page_fractional:-0.5
+
+# Disable Ctrl+Enter fullscreen keybind
+keybind = ctrl+enter=unbind
