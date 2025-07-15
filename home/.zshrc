@@ -280,3 +280,9 @@ export PATH="$BUN_INSTALL/bin:$PATH"
 export PATH=$HOME/.local/bin:$PATH
 
 eval "$(gh copilot alias -- zsh)"
+
+# opencode
+export PATH=/home/himmel/.opencode/bin:$PATH
+
+# editor
+export EDITOR="nvim"
