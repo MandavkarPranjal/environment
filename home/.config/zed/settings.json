@@ -7,15 +7,14 @@
 // custom settings, run `zed: open default settings` from the
 // command palette
 {
-  "assistant": {
+  "agent": {
     "default_model": {
       "provider": "copilot_chat",
       "model": "claude-3-5-sonnet"
     },
-    "version": "2"
   },
   "features": {
-    "edit_prediction_provider": "zed"
+    "edit_prediction_provider": "copilot"
   },
   "vim_mode": true,
   "vertical_scroll_margin": 8,

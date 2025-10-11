@@ -7,8 +7,15 @@
 // custom settings, run `zed: open default settings` from the
 // command palette
 {
+  "assistant": {
+    "default_model": {
+      "provider": "copilot_chat",
+      "model": "claude-3-5-sonnet"
+    },
+    "version": "2"
+  },
   "features": {
-    "inline_completion_provider": "supermaven"
+    "edit_prediction_provider": "copilot"
   },
   "vim_mode": true,
   "vertical_scroll_margin": 8,
@@ -25,7 +32,7 @@
   "buffer_font_size": 16,
   // telemetry OFF
   "telemetry": {
-    "diagnostics": false,
+    "diagnostics": true,
     "metrics": false
   },
   "theme": {
