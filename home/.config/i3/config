@@ -228,3 +228,6 @@ exec --no-startup-id ~/scripts/wallpaper
 # scratchpad
 bindsym $mod+minus scratchpad show
 bindsym $mod+Shift+minus move scratchpad
+
+# screensaver
+exec_always --no-startup-id xautolock -time 5 -locker "i3lock -i ~/Pictures/wallpaper/sungarden.png"
