@@ -1,0 +1,61 @@
+#!/usr/bin/env bash
+# Wrapper for xautolock that avoids locking when media is playing or a fullscreen window is active.
+# - Exit 0 (do nothing) if audio is playing, any MPRIS player reports "Playing", or the active X11 window is fullscreen.
+# - Otherwise runs the configured locker command.
+#
+# Edit LOCK_CMD below to match your i3lock invocation (use absolute paths).
+# Make executable: chmod +x ~/.config/i3/lock_wrapper.sh
+set -euo pipefail
+
+# --- Configuration: change to your lock command (use absolute paths) ---
+LOCK_CMD='i3lock -i ~/Pictures/wallpaper/sungarden.png'
+# ---------------------------------------------------------------------
+
+# Helpers
+command_exists() { command -v "$1" >/dev/null 2>&1; }
+
+# 1) Check MPRIS players via playerctl (if available)
+if command_exists playerctl; then
+    # iterate players; if any are playing, skip lock
+    for p in $(playerctl -l 2>/dev/null || true); do
+        status=$(playerctl -p "$p" status 2>/dev/null || true)
+        if [ "$status" = "Playing" ]; then
+            echo "Skipping lock: playerctl reports $p is Playing"
+            exit 0
+        fi
+    done
+fi
+
+# 2) Check audio sink-inputs (PulseAudio / PipeWire via pactl)
+if command_exists pactl; then
+    # If any sink-input has State: RUNNING, it's producing sound
+    if pactl list sink-inputs 2>/dev/null | grep -q 'State: RUNNING'; then
+        echo "Skipping lock: audio sink input is RUNNING"
+        exit 0
+    fi
+fi
+
+# 3) Check if the active X11 window is fullscreen (xprop required)
+#    This covers fullscreen video players/Chrome/Fox in fullscreen mode.
+if command_exists xprop; then
+    # Get active window id (hex). Examples of returned formats are handled.
+    winline=$(xprop -root _NET_ACTIVE_WINDOW 2>/dev/null || true)
+    # Extract the hex id (last token). If empty or 0x0, nothing to check.
+    active_win=$(awk -F' = ' '{print $2}' <<<"$winline" | tr -d ' \n' || true)
+    if [ -n "$active_win" ] && [ "$active_win" != "0x0" ]; then
+        # Some xprop outputs "window id # 0x4600007" — strip words, keep hex
+        # If active_win contains multiple tokens, take last
+        active_win=$(awk '{print $NF}' <<<"$active_win")
+        # Query its _NET_WM_STATE and look for _NET_WM_STATE_FULLSCREEN
+        state=$(xprop -id "$active_win" _NET_WM_STATE 2>/dev/null || true)
+        if grep -q '_NET_WM_STATE_FULLSCREEN' <<<"$state"; then
+            echo "Skipping lock: active window is fullscreen"
+            exit 0
+        fi
+    fi
+fi
+
+# If we reach here, no media/fullscreen inhibition detected — run locker
+# Use eval so LOCK_CMD can contain arguments / quoted paths.
+echo "Locking now (no media/fullscreen detected)."
+eval "$LOCK_CMD"
