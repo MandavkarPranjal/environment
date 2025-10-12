@@ -230,5 +230,5 @@ bindsym $mod+minus scratchpad show
 bindsym $mod+Shift+minus move scratchpad
 
 # screensaver
-exec_always --no-startup-id xautolock -time 5 -locker "lock"
-bindsym Mod1+Mod4+l exec --no-startup-id ~/scripts/lock-force
+exec_always --no-startup-id xautolock -time 5 -locker "i3lock-fancy"
+bindsym Mod1+Mod4+l exec --no-startup-id i3lock-fancy
