@@ -165,6 +165,9 @@ alias gs='git status'
 # bat
 alias cat='bat --color=always --line-range :500'
 
+# opengraph-cli
+alias og='opengraph-cli'
+
 # brew
 eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
 HOMEBREW_NO_AUTO_UPDATE=1
