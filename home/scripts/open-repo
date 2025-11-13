@@ -1,7 +1,27 @@
 #!/usr/bin/env bash
 
 cd $(tmux run "echo #{pane_start_path}")
-url=$(git remote get-url origin)
+
+remotes=$(git remote -v | grep '(fetch)' | awk '{print $1 " -> " $2}')
+
+if [[ -z "$remotes" ]]; then
+    echo "No git remotes found"
+    exit 1
+fi
+
+remote_count=$(echo "$remotes" | wc -l)
+
+if [[ $remote_count -eq 1 ]]; then
+    selected="$remotes"
+else
+    selected=$(echo "$remotes" | fzf --prompt="Select remote: " --height=40% --reverse)
+    # Exit if nothing was selected
+    if [[ -z "$selected" ]]; then
+        exit 0
+    fi
+fi
+
+url=$(echo "$selected" | awk '{print $3}')
 
 if [[ $url == *github.com* ]]; then
     if [[ $url == git@* ]]; then
@@ -11,5 +31,5 @@ if [[ $url == *github.com* ]]; then
     fi
     xdg-open "$url" &>/dev/null &
 else
-    echo "This is is not hosted on Github"
+    echo "This remote is not hosted on Github"
 fi
