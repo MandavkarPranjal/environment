@@ -20,3 +20,6 @@ matches:
 
   - trigger: ":news"
     replace: "give me yesterday's programming and startup news"
+
+  - trigger: ":cubic"
+    replace: "@cubic-dev-ai"
