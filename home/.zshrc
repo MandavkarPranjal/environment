@@ -140,6 +140,10 @@ tm() {
 alias cl="clear"
 alias fe="feh --randomize --bg-fill ~/Pictures/wallpaper/*"
 alias vi="nvim"
+alias vu10="pactl set-sink-volume @DEFAULT_SINK@ +10%"
+alias vd10="pactl set-sink-volume @DEFAULT_SINK@ -10%"
+alias vu5="pactl set-sink-volume @DEFAULT_SINK@ +5%"
+alias vd5="pactl set-sink-volume @DEFAULT_SINK@ -5%"
 
 # omz
 alias zshconfig="nvim ~/.zshrc"
