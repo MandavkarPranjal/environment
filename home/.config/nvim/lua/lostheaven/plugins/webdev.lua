@@ -39,8 +39,11 @@ return {
 		dependencies = {
 			"nvim-treesitter/nvim-treesitter",
 			"nvim-telescope/telescope.nvim", -- optional
-			"neovim/nvim-lspconfig", -- optional
 		},
-		opts = {}, -- your configuration
+		opts = {
+			server = {
+				override = false, -- Disable server override to avoid deprecation warning
+			},
+		},
 	},
 }
