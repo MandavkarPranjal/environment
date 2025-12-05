@@ -7,6 +7,7 @@
 // custom settings, run `zed: open default settings` from the
 // command palette
 {
+  "base_keymap": "VSCode",
   "agent": {
     "default_model": {
       "provider": "copilot_chat",
@@ -34,9 +35,5 @@
     "diagnostics": true,
     "metrics": false
   },
-  "theme": {
-    "mode": "dark",
-    "light": "One Light",
-    "dark": "Rosé Pine Moon"
-  }
+  "theme": "Ayu Dark"
 }
