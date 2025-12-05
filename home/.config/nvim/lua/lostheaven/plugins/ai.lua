@@ -1,45 +1,45 @@
 return {
-	-- {
-	-- 	"supermaven-inc/supermaven-nvim",
-	-- 	config = function()
-	-- 		require("supermaven-nvim").setup({
-	-- 			keymaps = {
-	-- 				accept_suggestion = "<Tab>",
-	-- 				clear_suggestion = "<C-]>",
-	-- 				accept_word = "<C-j>",
-	-- 			},
-	-- 			ignore_filetypes = { cpp = true },
-	-- 			color = {
-	-- 				suggestion_color = "#ffffff",
-	-- 				cterm = 244,
-	-- 			},
-	-- 			log_level = "info", -- set to "off" to disable logging completely
-	-- 			disable_inline_completion = false, -- disables inline completion for use with cmp
-	-- 			disable_keymaps = false, -- disables built in keymaps for more manual control
-	-- 		})
-	-- 	end,
-	-- },
 	{
-		"ninetyfive-gg/ninetyfive.nvim",
-		version = "*", -- use stable version, or `false` for dev version
+		"supermaven-inc/supermaven-nvim",
 		config = function()
-			require("ninetyfive").setup({
-				enable_on_startup = true,
-				debug = false,
-				server = "wss://api.ninetyfive.gg",
-				mappings = {
-					enabled = true,
-					accept = "<Tab>",
-					accept_edit = "<C-g>",
-					reject = "<C-w>",
+			require("supermaven-nvim").setup({
+				keymaps = {
+					accept_suggestion = "<Tab>",
+					clear_suggestion = "<C-]>",
+					accept_word = "<C-j>",
 				},
-				indexing = {
-					mode = "ask",
-					cache_consent = true,
+				ignore_filetypes = { cpp = true },
+				color = {
+					suggestion_color = "#ffffff",
+					cterm = 244,
 				},
+				log_level = "info", -- set to "off" to disable logging completely
+				disable_inline_completion = false, -- disables inline completion for use with cmp
+				disable_keymaps = false, -- disables built in keymaps for more manual control
 			})
 		end,
 	},
+	-- {
+	-- 	"ninetyfive-gg/ninetyfive.nvim",
+	-- 	version = "*", -- use stable version, or `false` for dev version
+	-- 	config = function()
+	-- 		require("ninetyfive").setup({
+	-- 			enable_on_startup = true,
+	-- 			debug = false,
+	-- 			server = "wss://api.ninetyfive.gg",
+	-- 			mappings = {
+	-- 				enabled = true,
+	-- 				accept = "<Tab>",
+	-- 				accept_edit = "<C-g>",
+	-- 				reject = "<C-w>",
+	-- 			},
+	-- 			indexing = {
+	-- 				mode = "ask",
+	-- 				cache_consent = true,
+	-- 			},
+	-- 		})
+	-- 	end,
+	-- },
 	-- {
 	-- 	"olimorris/codecompanion.nvim",
 	-- 	opts = {},
