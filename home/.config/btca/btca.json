@@ -1,0 +1,20 @@
+{
+  "promptsDirectory": "~/.config/btca/prompts",
+  "reposDirectory": "~/.config/btca/repos",
+  "port": 3420,
+  "maxInstances": 5,
+  "repos": [
+    {
+      "name": "effect",
+      "url": "https://github.com/Effect-TS/effect",
+      "branch": "main"
+    },
+    {
+      "name": "nextjs",
+      "url": "https://github.com/vercel/next.js",
+      "branch": "canary"
+    }
+  ],
+  "model": "big-pickle",
+  "provider": "opencode"
+}
