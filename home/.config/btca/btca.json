@@ -13,6 +13,26 @@
       "name": "nextjs",
       "url": "https://github.com/vercel/next.js",
       "branch": "canary"
+    },
+    {
+      "name": "opencode",
+      "url": "https://github.com/sst/opencode",
+      "branch": "dev"
+    },
+    {
+        "name": "ai-sdk",
+        "url": "https://github.com/vercel/ai",
+        "branch": "main"
+    },
+    {
+        "name": "react-query",
+        "url": "https://github.com/tanstack/query",
+        "branch": "main"
+    },
+    {
+        "name": "pacer",
+        "url": "https://github.com/TanStack/pacer",
+        "branch": "main"
     }
   ],
   "model": "big-pickle",
