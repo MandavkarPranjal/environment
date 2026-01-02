@@ -1,40 +1,49 @@
 {
-  "promptsDirectory": "~/.config/btca/prompts",
-  "reposDirectory": "~/.config/btca/repos",
-  "port": 3420,
-  "maxInstances": 5,
-  "repos": [
+  "dataDirectory": "~/.local/share/btca",
+  "resources": [
     {
       "name": "effect",
+      "type": "git",
       "url": "https://github.com/Effect-TS/effect",
       "branch": "main"
     },
     {
       "name": "nextjs",
+      "type": "git",
       "url": "https://github.com/vercel/next.js",
       "branch": "canary"
     },
     {
       "name": "opencode",
+      "type": "git",
       "url": "https://github.com/sst/opencode",
       "branch": "dev"
     },
     {
-        "name": "ai-sdk",
-        "url": "https://github.com/vercel/ai",
-        "branch": "main"
+      "name": "ai-sdk",
+      "type": "git",
+      "url": "https://github.com/vercel/ai",
+      "branch": "main"
     },
     {
-        "name": "react-query",
-        "url": "https://github.com/tanstack/query",
-        "branch": "main"
+      "name": "react-query",
+      "type": "git",
+      "url": "https://github.com/tanstack/query",
+      "branch": "main"
     },
     {
-        "name": "pacer",
-        "url": "https://github.com/TanStack/pacer",
-        "branch": "main"
+      "name": "pacer",
+      "type": "git",
+      "url": "https://github.com/TanStack/pacer",
+      "branch": "main"
+    },
+    {
+      "type": "git",
+      "name": "claude-blocker",
+      "url": "https://github.com/T3-Content/claude-blocker",
+      "branch": "main"
     }
   ],
-  "model": "big-pickle",
+  "model": "glm-4.7-free",
   "provider": "opencode"
 }
