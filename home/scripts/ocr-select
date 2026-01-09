@@ -1,5 +1,7 @@
 #!/bin/sh
+pgrep -x tesseract >/dev/null && exit 0
 
-maim -s | convert - -colorspace Gray -resize 300% png:- \
+maim -s \
+| convert - -colorspace Gray -resize 300% png:- \
 | tesseract stdin stdout --psm 6 -l eng \
 | xclip -selection clipboard
