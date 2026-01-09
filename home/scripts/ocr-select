@@ -1,0 +1,5 @@
+#!/bin/sh
+
+maim -s | convert - -colorspace Gray -resize 300% png:- \
+| tesseract stdin stdout --psm 6 -l eng \
+| xclip -selection clipboard

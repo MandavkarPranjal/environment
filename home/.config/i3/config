@@ -238,3 +238,6 @@ bindsym $mod+Shift+minus move scratchpad
 # screensaver
 exec_always --no-startup-id xautolock -time 5 -locker "~/scripts/lock"
 bindsym Mod1+Mod4+l exec --no-startup-id i3lock-fancy
+
+# OCR
+bindsym $mod+o exec --no-startup-id sh -c "$HOME/scripts/ocr-select"
