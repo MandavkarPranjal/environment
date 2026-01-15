@@ -3,7 +3,9 @@
   "autoupdate": true,
   "plugin": [
     "opencode-openai-codex-auth",
-    "opencode-gemini-auth@latest"
+    "opencode-gemini-auth@latest",
+    "@mohak34/opencode-notifier@latest",
+    "@tarquinen/opencode-dcp@latest"
   ],
   "provider": {
     "openai": {
