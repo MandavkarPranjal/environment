@@ -6,3 +6,5 @@ email = "programmer.pranjal@gmail.com"
 
 [ui]
 default-command = "log"
+pager = "delta"
+diff-formatter = ":git"
