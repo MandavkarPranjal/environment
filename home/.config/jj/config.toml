@@ -8,3 +8,7 @@ email = "programmer.pranjal@gmail.com"
 default-command = "log"
 pager = "delta"
 diff-formatter = ":git"
+
+[aliases]
+lt = ["log", "-r", "::@"]
+lta = ["log", "-r", "::"]
