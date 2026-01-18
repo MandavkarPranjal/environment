@@ -3,7 +3,7 @@
   "autoupdate": true,
   "plugin": [
     "opencode-gemini-auth@latest",
-    "@mohak34/opencode-notifier@latest",
+    "@pranjalmandavkar/opencode-notifier@latest",
     "@tarquinen/opencode-dcp@latest"
   ],
   "provider": {
