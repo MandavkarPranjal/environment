@@ -320,3 +320,5 @@ fi
 ###-end-opencode-completions-###
 
 eval "$(mise activate zsh)"
+
+source ~/.local/bin/fzf-jj.sh
