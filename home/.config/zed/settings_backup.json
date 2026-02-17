@@ -7,19 +7,20 @@
 // custom settings, run `zed: open default settings` from the
 // command palette
 {
-  "assistant": {
+  "base_keymap": "VSCode",
+  "agent": {
     "default_model": {
       "provider": "copilot_chat",
-      "model": "claude-3-5-sonnet"
+      "model": "gpt-5.2"
     },
-    "version": "2"
+    "model_parameters": []
   },
   "features": {
     "edit_prediction_provider": "copilot"
   },
   "vim_mode": true,
   "vertical_scroll_margin": 8,
-  "relative_line_numbers": true,
+  "relative_line_numbers": "enabled",
   "tab_bar": {
     "show": false
   },
@@ -35,9 +36,5 @@
     "diagnostics": true,
     "metrics": false
   },
-  "theme": {
-    "mode": "dark",
-    "light": "One Light",
-    "dark": "Rosé Pine Moon"
-  }
+  "theme": "Ayu Dark"
 }

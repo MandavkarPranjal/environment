@@ -7,25 +7,43 @@
 // custom settings, run `zed: open default settings` from the
 // command palette
 {
+  "edit_predictions": {
+    "provider": "zed",
+    "mode": "subtle"
+  },
+  "when_closing_with_no_tabs": "keep_window_open",
+  "terminal": {
+    "shell": {
+      "with_arguments": {
+        "program": "sh",
+        "args": []
+      }
+    }
+  },
+  "which_key": {
+    "enabled": true
+  },
+  "use_system_path_prompts": false,
+  "session": {
+    "restore_unsaved_buffers": false,
+    "trust_all_worktrees": true
+  },
   "base_keymap": "VSCode",
   "agent": {
     "default_model": {
       "provider": "copilot_chat",
-      "model": "gpt-5.2"
+      "model": "gpt-5.2",
     },
-    "model_parameters": []
-  },
-  "features": {
-    "edit_prediction_provider": "copilot"
+    "model_parameters": [],
   },
   "vim_mode": true,
   "vertical_scroll_margin": 8,
-  "relative_line_numbers": true,
+  "relative_line_numbers": "enabled",
   "tab_bar": {
-    "show": false
+    "show": false,
   },
   "vim": {
-    "use_system_clipboard": "never"
+    "use_system_clipboard": "never",
   },
   "cursor_shape": "block",
   "cursor_blink": true,
@@ -34,7 +52,7 @@
   // telemetry OFF
   "telemetry": {
     "diagnostics": true,
-    "metrics": false
+    "metrics": true,
   },
-  "theme": "Ayu Dark"
+  "theme": "Ayu Dark",
 }
