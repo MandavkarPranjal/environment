@@ -323,3 +323,6 @@ eval "$(mise activate zsh)"
 
 source ~/.local/bin/fzf-jj.sh
 . "$HOME/.cargo/env"
+
+# Vite+ bin (https://viteplus.dev)
+. "$HOME/.vite-plus/env"
