@@ -23,7 +23,7 @@ hydrate() {
 if [[ $# -eq 1 ]]; then
     selected=$1
 else
-    selected=$(find ~/projects ~/ ~/work ~/dev ~/dev/environment ~/personal ~/personal/yt ~/personal/templates/ ~/100xdev-WebDev -mindepth 1 -maxdepth 1 -type d | fzf)
+    selected=$(find ~/projects ~/ ~/work ~/dev ~/dev/environment ~/personal ~/personal/yt ~/personal/templates/ ~/100xdev-WebDev ~/sandbox -mindepth 1 -maxdepth 1 -type d | fzf)
 fi
 
 if [[ -z $selected ]]; then
@@ -43,7 +43,7 @@ create_session() {
     else
         tmux new-session -s $session_name -c $session_path
     fi
-    
+
     tmux send-keys -t "$session_name:1" "nvim" c-M
     tmux new-window -t $session_name -c $session_path
     tmux new-window -t $session_name:69 -c $session_path
