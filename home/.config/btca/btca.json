@@ -44,6 +44,6 @@
       "branch": "main"
     }
   ],
-  "model": "glm-4.7-free",
+  "model": "minimax-m2.5-free",
   "provider": "opencode"
 }
