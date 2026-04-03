@@ -93,7 +93,7 @@ return {
 					},
 				},
 				keymaps = {
-					close = "<C-c>",
+					close = "<C-a>",
 					select = "<CR>",
 					select_split = "<C-s>",
 					select_vsplit = "<C-v>",
