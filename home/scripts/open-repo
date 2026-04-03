@@ -27,8 +27,10 @@ if [[ $url == *github.com* ]]; then
     if [[ $url == git@* ]]; then
         url="${url#git@}"
         url="${url/:/\/}"
-        url="https://$url"
+        url="https://${url%.git}"
     fi
+    url="${url/github.com/beta.better-hub.com}"
+    url="${url%.git}"
     xdg-open "$url" &>/dev/null &
 else
     echo "This remote is not hosted on Github"
