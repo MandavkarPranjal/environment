@@ -56,3 +56,11 @@ vim.api.nvim_create_autocmd("BufEnter", {
 		vim.cmd("TSBufEnable highlight")
 	end,
 })
+
+-- Disable TS highlight for markdown (Neovim 0.12 bug with injected languages)
+vim.api.nvim_create_autocmd("FileType", {
+	pattern = "markdown",
+	callback = function(args)
+		vim.treesitter.stop(args.buf)
+	end,
+})

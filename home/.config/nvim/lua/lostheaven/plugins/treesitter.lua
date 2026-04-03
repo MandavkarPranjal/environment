@@ -22,9 +22,7 @@ return {
 			auto_install = true,
 			highlight = {
 				enable = true,
-				-- Some languages depend on vim's regex highlighting system (such as Ruby) for indent rules.
-				--  If you are experiencing weird indenting issues, add the language to
-				--  the list of additional_vim_regex_highlighting and disabled languages for indent.
+				disable = { "markdown" },
 				additional_vim_regex_highlighting = false,
 			},
 		},
@@ -44,7 +42,13 @@ return {
 				mode = "cursor", -- Line used to calculate context. Choices: 'cursor', 'topline'
 				separator = nil,
 				zindex = 20, -- The Z-index of the context window
-				on_attach = nil, -- (fun(buf: integer): boolean) return false to disable attaching
+				on_attach = function(buf)
+				local ft = vim.bo[buf].filetype
+				if ft == "markdown" then
+					return false
+				end
+				return true
+			end,
 			})
 			vim.keymap.set("n", "[c", function()
 				require("treesitter-context").go_to_context(vim.v.count1)
