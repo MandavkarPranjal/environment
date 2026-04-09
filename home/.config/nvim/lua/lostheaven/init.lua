@@ -35,7 +35,7 @@ autocmd({ "BufWritePre" }, {
 })
 
 -- Prevent lsp from overwriting treesitter color setting
-vim.highlight.priorities.semantic_tokens = 95
+vim.hl.priorities.semantic_tokens = 95
 
 -- Appearance of diagnostics
 vim.diagnostic.config({
@@ -43,7 +43,7 @@ vim.diagnostic.config({
 		focusable = false,
 		style = "minimal",
 		border = "rounded",
-		source = "always",
+		source = true,
 		header = "",
 		prefix = "",
 	},
