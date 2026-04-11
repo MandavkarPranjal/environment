@@ -326,3 +326,6 @@ source ~/.local/bin/fzf-jj.sh
 
 # Vite+ bin (https://viteplus.dev)
 . "$HOME/.vite-plus/env"
+
+# opencode
+alias oc="opencode"
