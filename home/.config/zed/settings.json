@@ -7,6 +7,18 @@
 // custom settings, run `zed: open default settings` from the
 // command palette
 {
+  "project_panel": {
+    "dock": "right"
+  },
+  "outline_panel": {
+    "dock": "right"
+  },
+  "collaboration_panel": {
+    "dock": "right"
+  },
+  "git_panel": {
+    "dock": "right"
+  },
   "edit_predictions": {
     "provider": "zed",
     "mode": "subtle"
@@ -30,6 +42,7 @@
   },
   "base_keymap": "VSCode",
   "agent": {
+    "dock": "left",
     "default_model": {
       "provider": "copilot_chat",
       "model": "gpt-5.2",
