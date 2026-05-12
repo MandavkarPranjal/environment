@@ -144,6 +144,7 @@ alias vu10="pactl set-sink-volume @DEFAULT_SINK@ +10%"
 alias vd10="pactl set-sink-volume @DEFAULT_SINK@ -10%"
 alias vu5="pactl set-sink-volume @DEFAULT_SINK@ +5%"
 alias vd5="pactl set-sink-volume @DEFAULT_SINK@ -5%"
+alias ccc="clean-clone"
 
 # omz
 alias zshconfig="nvim ~/.zshrc"
@@ -329,3 +330,8 @@ source ~/.local/bin/fzf-jj.sh
 
 # opencode
 alias oc="opencode"
+
+alias lines="cloc . --exclude-dir=node_modules,.next,dist --exclude-ext=yaml"
+
+# Entire CLI shell completion
+autoload -Uz compinit && compinit && source <(entire completion zsh)
