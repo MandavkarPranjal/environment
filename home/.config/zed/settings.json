@@ -7,6 +7,14 @@
 // custom settings, run `zed: open default settings` from the
 // command palette
 {
+  "agent_servers": {
+    "github-copilot-cli": {
+      "type": "registry"
+    },
+    "codex-acp": {
+      "type": "registry"
+    }
+  },
   "project_panel": {
     "dock": "right"
   },
@@ -67,5 +75,5 @@
     "diagnostics": true,
     "metrics": true,
   },
-  "theme": "Rosé Pine",
+  "theme": "Omazed",
 }
