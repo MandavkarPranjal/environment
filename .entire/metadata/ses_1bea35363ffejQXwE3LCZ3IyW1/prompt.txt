@@ -1,0 +1,22 @@
+can @home/scripts/tmux-cht.sh be better?
+Called the Read tool with the following input: {"filePath":"/home/himmel/dev/environment/home/scripts/tmux-cht.sh"}
+<path>/home/himmel/dev/environment/home/scripts/tmux-cht.sh</path>
+<type>file</type>
+<content>
+1: #!/usr/bin/env bash
+2: selected=`cat ~/.tmux-cht-languages ~/.tmux-cht-command | fzf`
+3: if [[ -z $selected ]]; then
+4:     exit 0
+5: fi
+6: 
+7: read -p "Enter Query: " query
+8: 
+9: if grep -qs "$selected" ~/.tmux-cht-languages; then
+10:     query=`echo $query | tr ' ' '+'`
+11:     tmux neww bash -c "echo \"curl cht.sh/$selected/$query/\" & curl cht.sh/$selected/$query & while [ : ]; do sleep 1; done"
+12: else
+13:     tmux neww bash -c "curl -s cht.sh/$selected~$query | less"
+14: fi
+
+(End of file - total 14 lines)
+</content>
