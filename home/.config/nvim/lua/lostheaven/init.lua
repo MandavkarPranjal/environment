@@ -52,8 +52,8 @@ vim.diagnostic.config({
 -- enable TS highlight whenever I enter gleam or conf file
 vim.api.nvim_create_autocmd("BufEnter", {
 	pattern = { "*/hypr/*.conf", "*.gleam" },
-	callback = function()
-		vim.cmd("TSBufEnable highlight")
+	callback = function(args)
+		pcall(vim.treesitter.start, args.buf)
 	end,
 })
 
