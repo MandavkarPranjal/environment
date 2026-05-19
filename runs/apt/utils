@@ -1,0 +1,10 @@
+#!/usr/bin/env bash
+
+sudo apt-get install -y \
+    flameshot \
+    screenkey \
+    btop \
+    htop \
+    python3-pip
+
+cargo install --locked yazi-fm yazi-cli

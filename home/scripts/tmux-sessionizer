@@ -1,0 +1,65 @@
+#!/usr/bin/env bash
+
+switch_to() {
+    if [[ -z $TMUX ]]; then
+        tmux attach-session -t $1
+    else
+        tmux switch-client -t $1
+    fi
+}
+
+has_session() {
+    tmux list-sessions | grep -q "^$1:"
+}
+
+hydrate() {
+    if [ -f $2/.tmux-sessionizer ]; then
+        tmux send-keys -t $1 "source $2/.tmux-sessionizer" c-M
+    elif [ -f $HOME/.tmux-sessionizer ]; then
+        tmux send-keys -t $1 "source $HOME/.tmux-sessionizer" c-M
+    fi
+}
+
+if [[ $# -eq 1 ]]; then
+    selected=$1
+else
+    selected=$(find ~/projects ~/ ~/work ~/dev ~/dev/environment ~/personal ~/personal/yt ~/personal/templates/ ~/100xdev-WebDev ~/sandbox -mindepth 1 -maxdepth 1 -type d | fzf)
+fi
+
+if [[ -z $selected ]]; then
+    exit 0
+fi
+
+selected_name=$(basename "$selected" | tr . _)
+tmux_running=$(pgrep tmux)
+
+create_session() {
+    local session_name=$1
+    local session_path=$2
+    local detached=$3
+
+    if [[ $detached == "true" ]]; then
+        tmux new-session -ds $session_name -c $session_path
+    else
+        tmux new-session -s $session_name -c $session_path
+    fi
+
+    tmux send-keys -t "$session_name:1" "nvim" c-M
+    tmux new-window -t $session_name -c $session_path
+    tmux new-window -t $session_name:69 -c $session_path
+    tmux send-keys -t "$session_name:69" "opencode ." c-M
+    tmux select-window -t "$session_name:1"
+    hydrate $session_name $session_path
+}
+
+if [[ -z $TMUX ]] && [[ -z $tmux_running ]]; then
+    create_session $selected_name $selected true
+    tmux attach-session -t $selected_name
+    exit 0
+fi
+
+if ! has_session $selected_name; then
+    create_session $selected_name $selected true
+fi
+
+switch_to $selected_name

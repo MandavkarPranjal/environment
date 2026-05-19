@@ -1,0 +1,79 @@
+// Zed settings
+//
+// For information on how to configure Zed, see the Zed
+// documentation: https://zed.dev/docs/configuring-zed
+//
+// To see all of Zed's default settings without changing your
+// custom settings, run `zed: open default settings` from the
+// command palette
+{
+  "agent_servers": {
+    "github-copilot-cli": {
+      "type": "registry"
+    },
+    "codex-acp": {
+      "type": "registry"
+    }
+  },
+  "project_panel": {
+    "dock": "right"
+  },
+  "outline_panel": {
+    "dock": "right"
+  },
+  "collaboration_panel": {
+    "dock": "right"
+  },
+  "git_panel": {
+    "dock": "right"
+  },
+  "edit_predictions": {
+    "provider": "zed",
+    "mode": "subtle"
+  },
+  "when_closing_with_no_tabs": "keep_window_open",
+  "terminal": {
+    "shell": {
+      "with_arguments": {
+        "program": "sh",
+        "args": []
+      }
+    }
+  },
+  "which_key": {
+    "enabled": true
+  },
+  "use_system_path_prompts": false,
+  "session": {
+    "restore_unsaved_buffers": false,
+    "trust_all_worktrees": true
+  },
+  "base_keymap": "VSCode",
+  "agent": {
+    "dock": "left",
+    "default_model": {
+      "provider": "copilot_chat",
+      "model": "gpt-5.2",
+    },
+    "model_parameters": [],
+  },
+  "vim_mode": true,
+  "vertical_scroll_margin": 8,
+  "relative_line_numbers": "enabled",
+  "tab_bar": {
+    "show": false,
+  },
+  "vim": {
+    "use_system_clipboard": "never",
+  },
+  "cursor_shape": "block",
+  "cursor_blink": true,
+  "ui_font_size": 16,
+  "buffer_font_size": 16,
+  // telemetry OFF
+  "telemetry": {
+    "diagnostics": true,
+    "metrics": true,
+  },
+  "theme": "Omazed",
+}

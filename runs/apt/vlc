@@ -1,0 +1,4 @@
+#!/usr/bin/env bash
+set -e
+
+flatpak install flathub org.videolan.VLC

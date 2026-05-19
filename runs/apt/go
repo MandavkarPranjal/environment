@@ -1,0 +1,5 @@
+#!/usr/bin/env bash
+set -e
+
+# install go snap
+sudo snap install go --classic

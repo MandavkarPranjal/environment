@@ -1,0 +1,52 @@
+# theme
+theme = Rose Pine Moon
+
+# fonts
+font-size = 18
+# font-family = FiraMono Nerd Font
+font-feature = -liga
+font-family = JetBrainsMonoNL Nerd Font
+bold-is-bright = false
+
+# toopbar
+gtk-titlebar = false
+
+# notifications
+desktop-notifications = true
+
+# auto-update
+auto-update = check
+auto-update-channel = stable
+
+# window
+confirm-close-surface = false
+window-decoration = false
+# window-padding-x = 2
+# window-padding-y = 10
+window-padding-balance = true
+
+# background
+background = 000000
+background-opacity = 0.92
+background-blur=false
+confirm-close-surface = false
+
+# shell integration
+shell-integration = detect
+shell-integration-features = no-cursor, no-sudo, no-title
+
+# cursor
+# cursor-opacity = 0.3
+# cursor-style = block
+# cursor-style-blink = true
+
+# mouse
+mouse-hide-while-typing = true
+
+
+# what is a prefix?
+# keybind = ctrl+d=scroll_page_fractional:0.5
+# keybind = ctrl+u=scroll_page_fractional:-0.5
+
+# Disable Ctrl+Enter fullscreen keybind
+keybind = ctrl+enter=unbind

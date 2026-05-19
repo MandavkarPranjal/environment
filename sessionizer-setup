@@ -1,0 +1,3 @@
+#!/usr/bin/env bash
+
+mkdir -p ~/projects ~/work ~/dev/environment ~/personal/yt ~/personal/templates/ ~/100xdev-WebDev

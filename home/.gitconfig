@@ -1,0 +1,42 @@
+[user]
+	name = MandavkarPranjal
+	email = programmer.pranjal@gmail.com
+
+[core]
+    editor = nvim
+
+[init]
+    defaultBranch = main
+
+[push]
+    autoSetupRemote = true
+    default = current
+
+[core]
+    pager = delta
+
+[interactive]
+    diffFilter = delta --color-only
+
+[delta]
+    navigate = true    # use n and N to move between diff sections
+	side-by-side = true
+    line-numbers = true
+
+    # delta detects terminal colors automatically; set one of these to disable auto-detection
+    # dark = true
+    # light = true
+
+[merge]
+    conflictstyle = diff3
+
+[diff]
+    colorMoved = default
+[credential "https://github.com"]
+	helper = !/usr/bin/gh auth git-credential
+[credential "https://gist.github.com"]
+	helper = !/usr/bin/gh auth git-credential
+[pull]
+	rebase = true
+[coderabbit]
+	machineId = cli/fc5724a0405c4f7ebc7f9acaa06a9e7f

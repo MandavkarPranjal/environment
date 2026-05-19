@@ -1,0 +1,5 @@
+[tools]
+go = "latest"
+node = "25.9.0"
+zig = "latest"
+zls = "latest"

@@ -1,0 +1,176 @@
+{
+    "createdBy": "Redirector v3.5.3",
+    "createdAt": "2026-04-03T17:18:49.948Z",
+    "redirects": [
+        {
+            "description": "redirect github to beta.better-hub",
+            "exampleUrl": "http://github.com/",
+            "exampleResult": "https://beta.better-hub.com/dashboard",
+            "error": null,
+            "includePattern": "^https?://github\\.com/?$",
+            "excludePattern": "",
+            "patternDesc": "Any word after example.com leads to google search for that word.",
+            "redirectUrl": "https://beta.better-hub.com/dashboard",
+            "patternType": "R",
+            "processMatches": "noProcessing",
+            "disabled": false,
+            "grouped": false,
+            "appliesTo": [
+                "main_frame"
+            ]
+        },
+        {
+            "description": "Repo base",
+            "exampleUrl": "https://github.com/torvalds/linux",
+            "exampleResult": "https://beta.better-hub.com/torvalds/linux",
+            "error": null,
+            "includePattern": "^https?://github\\.com/([^/]+)/([^/]+)/?$",
+            "excludePattern": "",
+            "patternDesc": "",
+            "redirectUrl": "https://beta.better-hub.com/$1/$2",
+            "patternType": "R",
+            "processMatches": "noProcessing",
+            "disabled": false,
+            "grouped": false,
+            "appliesTo": [
+                "main_frame"
+            ]
+        },
+        {
+            "description": "Pull request",
+            "exampleUrl": "https://github.com/facebook/react/pull/27000",
+            "exampleResult": "https://beta.better-hub.com/facebook/react/pull/27000",
+            "error": null,
+            "includePattern": "^https?://github\\.com/([^/]+)/([^/]+)/pull/(\\d+)",
+            "excludePattern": "",
+            "patternDesc": "",
+            "redirectUrl": "https://beta.better-hub.com/$1/$2/pull/$3",
+            "patternType": "R",
+            "processMatches": "noProcessing",
+            "disabled": false,
+            "grouped": false,
+            "appliesTo": [
+                "main_frame"
+            ]
+        },
+        {
+            "description": "Commit",
+            "exampleUrl": "https://github.com/torvalds/linux/commit/5e3ee11",
+            "exampleResult": "https://beta.better-hub.com/torvalds/linux/commit/5e3ee11",
+            "error": null,
+            "includePattern": "^https?://github\\.com/([^/]+)/([^/]+)/commit/([a-f0-9]+)",
+            "excludePattern": "",
+            "patternDesc": "",
+            "redirectUrl": "https://beta.better-hub.com/$1/$2/commit/$3",
+            "patternType": "R",
+            "processMatches": "noProcessing",
+            "disabled": false,
+            "grouped": false,
+            "appliesTo": [
+                "main_frame"
+            ]
+        },
+        {
+            "description": "Actions runs → actions",
+            "exampleUrl": "https://github.com/vercel/next.js/actions/runs/123456",
+            "exampleResult": "https://beta.better-hub.com/vercel/next.js/actions/123456",
+            "error": null,
+            "includePattern": "^https?://github\\.com/([^/]+)/([^/]+)/actions/runs/(\\d+)",
+            "excludePattern": "",
+            "patternDesc": "",
+            "redirectUrl": "https://beta.better-hub.com/$1/$2/actions/$3",
+            "patternType": "R",
+            "processMatches": "noProcessing",
+            "disabled": false,
+            "grouped": false,
+            "appliesTo": [
+                "main_frame"
+            ]
+        },
+        {
+            "description": "Notifications",
+            "exampleUrl": "https://github.com/notifications",
+            "exampleResult": "https://beta.better-hub.com/notifications",
+            "error": null,
+            "includePattern": "^https?://github\\.com/notifications/?$",
+            "excludePattern": "",
+            "patternDesc": "",
+            "redirectUrl": "https://beta.better-hub.com/notifications",
+            "patternType": "R",
+            "processMatches": "noProcessing",
+            "disabled": false,
+            "grouped": false,
+            "appliesTo": [
+                "main_frame"
+            ]
+        },
+        {
+            "description": "Trending",
+            "exampleUrl": "https://github.com/trending",
+            "exampleResult": "https://beta.better-hub.com/trending",
+            "error": null,
+            "includePattern": "^https?://github\\.com/trending/?$",
+            "excludePattern": "",
+            "patternDesc": "",
+            "redirectUrl": "https://beta.better-hub.com/trending",
+            "patternType": "R",
+            "processMatches": "noProcessing",
+            "disabled": false,
+            "grouped": false,
+            "appliesTo": [
+                "main_frame"
+            ]
+        },
+        {
+            "description": "Pulls → prs",
+            "exampleUrl": "https://github.com/pulls",
+            "exampleResult": "https://beta.better-hub.com/prs",
+            "error": null,
+            "includePattern": "^https?://github\\.com/pulls/?$",
+            "excludePattern": "",
+            "patternDesc": "",
+            "redirectUrl": "https://beta.better-hub.com/prs",
+            "patternType": "R",
+            "processMatches": "noProcessing",
+            "disabled": false,
+            "grouped": false,
+            "appliesTo": [
+                "main_frame"
+            ]
+        },
+        {
+            "description": "Issues",
+            "exampleUrl": "https://github.com/issues",
+            "exampleResult": "https://beta.better-hub.com/issues",
+            "error": null,
+            "includePattern": "^https?://github\\.com/issues/?$",
+            "excludePattern": "",
+            "patternDesc": "",
+            "redirectUrl": "https://beta.better-hub.com/issues",
+            "patternType": "R",
+            "processMatches": "noProcessing",
+            "disabled": false,
+            "grouped": false,
+            "appliesTo": [
+                "main_frame"
+            ]
+        },
+        {
+            "description": "Settings",
+            "exampleUrl": "https://github.com/settings",
+            "exampleResult": "https://beta.better-hub.com/settings",
+            "error": null,
+            "includePattern": "^https?://github\\.com/settings/?$",
+            "excludePattern": "",
+            "patternDesc": "",
+            "redirectUrl": "https://beta.better-hub.com/settings",
+            "patternType": "R",
+            "processMatches": "noProcessing",
+            "disabled": false,
+            "grouped": false,
+            "appliesTo": [
+                "main_frame"
+            ]
+        }
+    ]
+}

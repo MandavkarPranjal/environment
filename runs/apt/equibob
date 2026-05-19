@@ -1,0 +1,5 @@
+#!/usr/bin/env bash
+set -e
+
+# install from flatpak
+flatpak install flathub io.github.equicord.equibop

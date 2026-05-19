@@ -1,0 +1,15 @@
+#!/usr/bin/env bash
+set -e
+
+sudo apt-get install -y \
+    i3 \
+    i3-wm \
+    i3status
+
+# 3. (Optional) Install some commonly used utilities for fullscreen background, launcher, terminal, etc.
+sudo apt-get install -y \
+    dmenu \
+    feh \
+    rxvt-unicode \
+    compton \
+    fonts-font-awesome

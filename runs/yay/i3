@@ -1,0 +1,8 @@
+#!/usr/bin/env bash
+
+# apparently it may be one or the other
+yay -S i3
+yay -S i3-wm
+
+# i3 status bar
+yay -S i3status

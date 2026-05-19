@@ -1,0 +1,14 @@
+#:schema https://docs.jj-vcs.dev/latest/config-schema.json
+
+[user]
+name = "MandavkarPranjal"
+email = "programmer.pranjal@gmail.com"
+
+[ui]
+default-command = "st"
+pager = "delta"
+diff-formatter = ":git"
+
+[aliases]
+lt = ["log", "-r", "::@"]
+lta = ["log", "-r", "::"]

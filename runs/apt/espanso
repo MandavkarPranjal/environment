@@ -1,0 +1,18 @@
+#!/bin/bash
+
+# Save the current directory
+ORIGINAL_DIR="$(pwd)"
+
+# Change to home directory
+cd ~
+
+# Download and install Espanso
+wget https://github.com/espanso/espanso/releases/download/v2.2.1/espanso-debian-x11-amd64.deb
+sudo apt install -y ./espanso-debian-x11-amd64.deb
+
+# Register and start Espanso
+espanso service register
+espanso start
+
+# Return to the original directory
+cd "$ORIGINAL_DIR"
