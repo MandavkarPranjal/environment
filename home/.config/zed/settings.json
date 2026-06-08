@@ -8,6 +8,15 @@
 // command palette
 {
   "agent_servers": {
+    "pi-acp": {
+      "type": "registry"
+    },
+    "kilo": {
+      "type": "registry"
+    },
+    "opencode": {
+      "type": "registry"
+    },
     "github-copilot-cli": {
       "type": "registry"
     },
