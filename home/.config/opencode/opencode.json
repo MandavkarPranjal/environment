@@ -2,7 +2,6 @@
   "$schema": "https://opencode.ai/config.json",
   "autoupdate": true,
   "plugin": [
-    "opencode-gemini-auth@latest",
     "opencode-antigravity-auth@latest",
     "@pranjalmandavkar/opencode-notifier@latest",
     "@tarquinen/opencode-dcp@latest",
