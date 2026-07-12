@@ -271,6 +271,9 @@ fpath=(~/.completions/ $fpath)
 autoload -Uz compinit
 compinit -u
 
+# Add deno completions to search path
+if [[ ":$FPATH:" != *":/home/himmel/.zsh/completions:"* ]]; then export FPATH="/home/himmel/.zsh/completions:$FPATH"; fi
+
 # pnpm
 export PNPM_HOME="/home/himmel/.local/share/pnpm"
 case ":$PATH:" in
