@@ -3,6 +3,7 @@
   "autoupdate": true,
   "plugin": [
     "opencode-gemini-auth@latest",
+    "opencode-antigravity-auth@latest",
     "@pranjalmandavkar/opencode-notifier@latest",
     "@tarquinen/opencode-dcp@latest",
     "opencode-openai-codex-auth"
