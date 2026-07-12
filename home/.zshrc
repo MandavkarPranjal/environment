@@ -540,3 +540,6 @@ fi
 
 # Added by Antigravity CLI installer
 export PATH="/home/himmel/.local/bin:$PATH"
+
+# nub
+export PATH="$HOME/.nub/bin:$PATH"
