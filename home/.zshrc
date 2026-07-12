@@ -536,3 +536,7 @@ _tailscale()
 if [ "$funcstack[1]" = "_tailscale" ]; then
     _tailscale
 fi
+
+
+# Added by Antigravity CLI installer
+export PATH="/home/himmel/.local/bin:$PATH"
