@@ -2,5 +2,6 @@
 go = "latest"
 java = "latest"
 node = "25.9.0"
+pnpm = "latest"
 zig = "latest"
 zls = "latest"
