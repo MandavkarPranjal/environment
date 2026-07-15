@@ -1,0 +1,69 @@
+{
+  "cli_version": "0.8.42",
+  "checkpoint_id": "65774cb21880",
+  "session_id": "ses_09964e525ffeIfTLBQuJzOJYCt",
+  "strategy": "manual-commit",
+  "created_at": "2026-07-15T16:32:00.259759907Z",
+  "branch": "main",
+  "checkpoints_count": 2,
+  "save_step_count": 2,
+  "files_touched": [
+    "home/.config/mise/config.toml"
+  ],
+  "agent": "OpenCode",
+  "model": "mimo-v2.5-free",
+  "turn_id": "e4bc13e1e17c",
+  "compact_transcript_start": 0,
+  "token_usage": {
+    "input_tokens": 19387,
+    "cache_creation_tokens": 0,
+    "cache_read_tokens": 58880,
+    "output_tokens": 734,
+    "api_call_count": 6
+  },
+  "session_metrics": {
+    "turn_count": 2
+  },
+  "initial_attribution": {
+    "calculated_at": "2026-07-15T16:32:00.251457699Z",
+    "agent_lines": 3,
+    "agent_removed": 0,
+    "human_added": 0,
+    "human_modified": 0,
+    "human_removed": 0,
+    "total_committed": 3,
+    "total_lines_changed": 3,
+    "agent_percentage": 100,
+    "metric_version": 2
+  },
+  "prompt_attributions": [
+    {
+      "checkpoint_number": 1,
+      "user_lines_added": 596,
+      "user_lines_removed": 0,
+      "agent_lines_added": 0,
+      "agent_lines_removed": 0,
+      "user_added_per_file": {
+        "home/fzf-git.sh/.github/FUNDING.yml": 1,
+        "home/fzf-git.sh/LICENSE": 21,
+        "home/fzf-git.sh/README.md": 107,
+        "home/fzf-git.sh/fzf-git.fish": 26,
+        "home/fzf-git.sh/fzf-git.sh": 441
+      }
+    },
+    {
+      "checkpoint_number": 2,
+      "user_lines_added": 596,
+      "user_lines_removed": 0,
+      "agent_lines_added": 0,
+      "agent_lines_removed": 0,
+      "user_added_per_file": {
+        "home/fzf-git.sh/.github/FUNDING.yml": 1,
+        "home/fzf-git.sh/LICENSE": 21,
+        "home/fzf-git.sh/README.md": 107,
+        "home/fzf-git.sh/fzf-git.fish": 26,
+        "home/fzf-git.sh/fzf-git.sh": 441
+      }
+    }
+  ]
+}
