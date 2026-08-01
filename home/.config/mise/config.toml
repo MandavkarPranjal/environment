@@ -1,7 +1,7 @@
 [tools]
 go = "latest"
 java = "latest"
-node = "25.9.0"
+node = "latest"
 pnpm = "latest"
 rust = "latest"
 zig = "latest"
