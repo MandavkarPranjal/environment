@@ -543,3 +543,6 @@ export PATH="/home/himmel/.local/bin:$PATH"
 
 # nub
 export PATH="$HOME/.nub/bin:$PATH"
+
+# tailscale taildrop
+alias td="sudo tailscale file get ."
