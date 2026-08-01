@@ -7,6 +7,12 @@
     "@tarquinen/opencode-dcp@latest",
     "opencode-openai-codex-auth"
   ],
+  "agent": {
+      "title":{
+          "maxTokens": 80,
+          "model": "big-pickel"
+      }
+  },
   "provider": {
     "openai": {
       "options": {
