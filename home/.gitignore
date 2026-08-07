@@ -1,2 +1,6 @@
 .config/tmux/plugins/*
 .zprofile
+.config/hypr/*.bak.*
+.config/opencode/*.bak-*
+.config/opencode/*.db
+fzf-git.sh
