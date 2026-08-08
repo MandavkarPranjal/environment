@@ -1,5 +1,1 @@
-change hypr config to .lua correctly
-
----
-
-if it omarchy doesn't support lua then don't proceed
+commit and push
