@@ -1,0 +1,1 @@
+ctrl+z suspend pi, can use ctrl+u and also i am using pi inside ghostty with tmux, if that helps
