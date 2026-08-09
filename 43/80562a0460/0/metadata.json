@@ -1,0 +1,23 @@
+{
+  "cli_version": "0.9.0",
+  "checkpoint_id": "4380562a0460",
+  "session_id": "019f6a3d-8487-7606-8afa-13c568fbeae2",
+  "strategy": "import",
+  "created_at": "2026-07-16T09:24:06.699Z",
+  "commit_sha": "0e7fec405e708a563966f45830614ee23c4df72c",
+  "checkpoints_count": 1,
+  "files_touched": null,
+  "agent": "Pi",
+  "model": "mimo-v2.5-free",
+  "checkpoint_transcript_start": 3,
+  "transcript_lines_at_start": 3,
+  "compact_transcript_start": 0,
+  "token_usage": {
+    "input_tokens": 938,
+    "cache_creation_tokens": 0,
+    "cache_read_tokens": 1024,
+    "output_tokens": 45,
+    "api_call_count": 1
+  },
+  "kind": "imported"
+}
