@@ -1,0 +1,1 @@
+undo is not working on pi and if any changes are made to pi config then add that config to @home/.config/ with stow
