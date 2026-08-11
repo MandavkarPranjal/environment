@@ -1,0 +1,1 @@
+why is wayscriber binding not working @home/.config/hypr/bindings.conf

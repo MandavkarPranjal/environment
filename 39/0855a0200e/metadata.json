@@ -1,0 +1,26 @@
+{
+  "cli_version": "0.9.0",
+  "checkpoint_id": "390855a0200e",
+  "strategy": "manual-commit",
+  "branch": "main",
+  "checkpoints_count": 2,
+  "files_touched": [
+    "home/.config/hypr/bindings.conf"
+  ],
+  "sessions": [
+    {
+      "metadata": "/39/0855a0200e/0/metadata.json",
+      "transcript": "/39/0855a0200e/0/full.jsonl",
+      "compact_transcript": "/39/0855a0200e/0/transcript.jsonl",
+      "content_hash": "/39/0855a0200e/0/content_hash.txt",
+      "prompt": "/39/0855a0200e/0/prompt.txt"
+    }
+  ],
+  "token_usage": {
+    "input_tokens": 26594,
+    "cache_creation_tokens": 0,
+    "cache_read_tokens": 222464,
+    "output_tokens": 7593,
+    "api_call_count": 10
+  }
+}
