@@ -546,3 +546,9 @@ export PATH="$HOME/.nub/bin:$PATH"
 
 # tailscale taildrop
 alias td="sudo tailscale file get ."
+
+# >>> grok installer >>>
+export PATH="$HOME/.grok/bin:$PATH"
+fpath=(~/.grok/completions/zsh $fpath)
+autoload -Uz compinit && compinit -C
+# <<< grok installer <<<
