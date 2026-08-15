@@ -1,0 +1,26 @@
+{
+  "cli_version": "0.9.0",
+  "checkpoint_id": "c90c8c2952bb",
+  "strategy": "manual-commit",
+  "branch": "main",
+  "checkpoints_count": 5,
+  "files_touched": [
+    "home/.config/ghostty/config",
+    "home/.config/hypr/bindings.lua",
+    "home/.config/hypr/hyprland.conf",
+    "home/.config/hypr/hyprland.lua",
+    "home/.config/hypr/input.lua",
+    "home/.config/kitty/kitty.conf",
+    "home/.config/mise/config.toml",
+    "home/.config/nvim/lua/config/remote_clipboard.lua",
+    "home/.config/tmux/tmux.conf"
+  ],
+  "sessions": [
+    {
+      "metadata": "/c9/0c8c2952bb/0/metadata.json",
+      "transcript": "/c9/0c8c2952bb/0/full.jsonl",
+      "content_hash": "/c9/0c8c2952bb/0/content_hash.txt",
+      "prompt": ""
+    }
+  ]
+}
