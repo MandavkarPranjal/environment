@@ -1,0 +1,9 @@
+i have mistakenly install gh from mise but i already installed it with yay, i removed gh mise config @home/.config/mise/ but when i try to run gh command its broken now
+Called the Read tool with the following input: {"filePath":"/home/himmel/dev/environment/home/.config/mise/"}
+<path>/home/himmel/dev/environment/home/.config/mise/</path>
+<type>directory</type>
+<entries>
+config.toml
+
+(1 entries)
+</entries>
