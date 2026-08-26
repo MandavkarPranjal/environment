@@ -1,0 +1,68 @@
+{
+  "cli_version": "0.10.0",
+  "checkpoint_id": "7219f000860a",
+  "session_id": "ses_fc2706a03ffewYWdBz8Isi9Niz",
+  "strategy": "manual-commit",
+  "created_at": "2026-08-26T10:46:29.378224665Z",
+  "branch": "main",
+  "checkpoints_count": 2,
+  "save_step_count": 2,
+  "files_touched": [
+    "home/.config/ghostty/config",
+    "home/.config/hypr/bindings-override.conf",
+    "home/.config/hypr/looknfeel.conf",
+    "home/.config/mise/config.toml",
+    "home/.config/tmux/tmux.conf",
+    "home/.zshrc",
+    "home/scripts/open-repo"
+  ],
+  "agent": "OpenCode",
+  "model": "x-preview-f-free",
+  "turn_id": "969ecd4755fd",
+  "session_metrics": {
+    "turn_count": 2
+  },
+  "initial_attribution": {
+    "calculated_at": "2026-08-26T10:46:29.356598488Z",
+    "agent_lines": 2,
+    "agent_removed": 1,
+    "human_added": 0,
+    "human_modified": 0,
+    "human_removed": 15,
+    "total_committed": 2,
+    "total_lines_changed": 18,
+    "agent_percentage": 16.666666666666664,
+    "metric_version": 2
+  },
+  "prompt_attributions": [
+    {
+      "checkpoint_number": 1,
+      "user_lines_added": 81,
+      "user_lines_removed": 15,
+      "agent_lines_added": 0,
+      "agent_lines_removed": 0,
+      "user_added_per_file": {
+        "home/.config/ghostty/config": 1,
+        "home/.config/hypr/bindings-override.conf": 1,
+        "home/.config/hypr/looknfeel.conf": 3,
+        "home/.config/mise/config.toml": 2,
+        "home/.config/tmux/tmux.conf": 1,
+        "home/.zshrc": 1,
+        "home/scripts/open-repo": 72
+      },
+      "user_removed_per_file": {
+        "home/.config/ghostty/config": 1,
+        "home/.config/hypr/bindings-override.conf": 1,
+        "home/.config/tmux/tmux.conf": 1,
+        "home/scripts/open-repo": 12
+      }
+    },
+    {
+      "checkpoint_number": 2,
+      "user_lines_added": 0,
+      "user_lines_removed": 0,
+      "agent_lines_added": 95,
+      "agent_lines_removed": 16
+    }
+  ]
+}
