@@ -1,6 +1,22 @@
 #!/usr/bin/env bash
 
-cd $(tmux run "echo #{pane_start_path}")
+# Inside a tmux popup TMUX is set but TMUX_PANE is not. There, display-message
+# resolves to the active pane behind the popup (wrong cwd), and fzf --height
+# conflicts with the popup's screen handling (blank/frozen popup).
+in_tmux_popup() {
+    [[ -n "${TMUX:-}" && -z "${TMUX_PANE:-}" ]]
+}
+
+if [[ -n "${TMUX:-}" ]] && ! in_tmux_popup; then
+    repo_dir=$(tmux display-message -p -F '#{pane_current_path}')
+    cd "$repo_dir" || exit 1
+fi
+
+if in_tmux_popup; then
+    fz() { fzf --prompt="$1" --reverse; }
+else
+    fz() { fzf --prompt="$1" --height=40% --reverse; }
+fi
 
 remotes=$(git remote -v | grep '(fetch)' | awk '{print $1 " -> " $2}')
 
@@ -14,24 +30,84 @@ remote_count=$(echo "$remotes" | wc -l)
 if [[ $remote_count -eq 1 ]]; then
     selected="$remotes"
 else
-    selected=$(echo "$remotes" | fzf --prompt="Select remote: " --height=40% --reverse)
+    selected=$(echo "$remotes" | fz "Select remote: ")
     # Exit if nothing was selected
     if [[ -z "$selected" ]]; then
         exit 0
     fi
 fi
 
-url=$(echo "$selected" | awk '{print $3}')
+remote_url=$(echo "$selected" | awk '{print $3}')
 
-if [[ $url == *github.com* ]]; then
-    if [[ $url == git@* ]]; then
-        url="${url#git@}"
-        url="${url/:/\/}"
-        url="https://${url%.git}"
-    fi
-    url="${url/github.com/beta.better-hub.com}"
-    url="${url%.git}"
-    xdg-open "$url" &>/dev/null &
+# Turn common Git remote formats into an owner/repository path. This lets the
+# same local repository be opened in any of the supported web frontends.
+if [[ "$remote_url" == git@*:* ]]; then
+    repo_path="${remote_url#*:}"
 else
-    echo "This remote is not hosted on Github"
+    repo_path="${remote_url#*://}"
+    repo_path="${repo_path#*/}"
+fi
+repo_path="${repo_path%.git}"
+
+if [[ -z "$repo_path" || "$repo_path" == "$remote_url" && "$remote_url" != git@*:* ]]; then
+    echo "Could not determine repository path from remote: $remote_url"
+    exit 1
+fi
+
+destination=$(printf '%s\n' \
+    "GitHub" \
+    "Better Hub" \
+    "OpenGit" \
+    "Codeberg" \
+    "Gitea" \
+    "Entire" |
+    fz "Open in: ")
+
+if [[ -z "$destination" ]]; then
+    exit 0
+fi
+
+case "$destination" in
+    "GitHub")
+        url="https://github.com/$repo_path"
+        ;;
+    "Better Hub")
+        url="https://beta.better-hub.com/$repo_path"
+        ;;
+    "OpenGit")
+        url="https://open-git.com/$repo_path"
+        ;;
+    "Codeberg")
+        url="https://codeberg.org/$repo_path"
+        ;;
+    "Gitea")
+        url="https://gitea.com/$repo_path"
+        ;;
+    "Entire")
+        url="https://entire.io/gh/$repo_path"
+        ;;
+esac
+
+# fzf/tmux can preserve an accidental space in a copied remote URL. A web URL
+# must not contain whitespace, so normalize it before handing it to the opener.
+url="${url//[[:space:]]/}"
+printf 'Opening: %s\n' "$url"
+
+# Launch synchronously where possible: when run from a tmux popup, the popup
+# (and its process group) is torn down as soon as this script exits, which
+# kills a backgrounded launcher before it can hand off. systemd-run returns
+# immediately after registering the unit, and setsid --fork detaches the
+# fallback openers into their own session so they survive popup teardown.
+browser_desktop=$(env -u BROWSER xdg-settings get default-web-browser 2>/dev/null)
+if [[ "$browser_desktop" == "app.zen_browser.zen.desktop" ]] && command -v uwsm-app >/dev/null 2>&1; then
+    systemd-run --user --quiet --collect \
+        --unit="open-repo-browser-$(date +%s%N)" \
+        uwsm-app -- flatpak run app.zen_browser.zen "$url" \
+        >/dev/null 2>&1 </dev/null
+elif command -v omarchy-launch-browser >/dev/null 2>&1; then
+    setsid --fork omarchy-launch-browser "$url" >/dev/null 2>&1 </dev/null
+elif command -v gio >/dev/null 2>&1; then
+    setsid --fork gio open "$url" >/dev/null 2>&1 </dev/null
+else
+    setsid --fork xdg-open "$url" >/dev/null 2>&1 </dev/null
 fi

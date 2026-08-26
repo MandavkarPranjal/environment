@@ -552,3 +552,4 @@ export PATH="$HOME/.grok/bin:$PATH"
 fpath=(~/.grok/completions/zsh $fpath)
 autoload -Uz compinit && compinit -C
 # <<< grok installer <<<
+export QS_SEC_AUR_MALWARE=/home/himmel/.config/omarchy/plugins/io.github.elynch303.security-scan/AUR-Malware/check-atomic-arch_new.sh
