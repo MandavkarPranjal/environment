@@ -3,7 +3,7 @@
   "checkpoint_id": "7219f000860a",
   "strategy": "manual-commit",
   "branch": "main",
-  "checkpoints_count": 2,
+  "checkpoints_count": 5,
   "files_touched": [
     "home/.config/ghostty/config",
     "home/.config/hypr/bindings-override.conf",
@@ -18,6 +18,12 @@
       "metadata": "/72/19f000860a/0/metadata.json",
       "transcript": "/72/19f000860a/0/full.jsonl",
       "content_hash": "/72/19f000860a/0/content_hash.txt",
+      "prompt": ""
+    },
+    {
+      "metadata": "/72/19f000860a/1/metadata.json",
+      "transcript": "/72/19f000860a/1/full.jsonl",
+      "content_hash": "/72/19f000860a/1/content_hash.txt",
       "prompt": ""
     }
   ]

@@ -1,0 +1,152 @@
+mise ~/.config/mise/config.toml tools: opencode@1.18.22
+{
+  "info": {
+    "id": "ses_fc290a289ffeF5S6gxgY1GQsez",
+    "slug": "curious-sailor",
+    "projectID": "68b26f824754f4410aba292f5567016b669ec647",
+    "directory": "/home/himmel/dev/environment",
+    "path": "",
+    "title": "when [open-repo](home/scripts/open-repo) trigger, ...",
+    "agent": "build",
+    "model": {
+      "id": "x-preview-f-free",
+      "providerID": "opencode",
+      "variant": "max"
+    },
+    "version": "1.18.22",
+    "summary": {
+      "additions": 0,
+      "deletions": 0,
+      "files": 0
+    },
+    "cost": 0,
+    "tokens": {
+      "input": 0,
+      "output": 0,
+      "reasoning": 0,
+      "cache": {
+        "read": 0,
+        "write": 0
+      }
+    },
+    "permission": [
+      {
+        "permission": "*",
+        "pattern": "*",
+        "action": "allow"
+      }
+    ],
+    "time": {
+      "created": 1787737103734,
+      "updated": 1787737105303
+    }
+  },
+  "messages": [
+    {
+      "info": {
+        "role": "user",
+        "time": {
+          "created": 1787737103914
+        },
+        "agent": "build",
+        "model": {
+          "providerID": "opencode",
+          "modelID": "x-preview-f-free",
+          "variant": "max"
+        },
+        "summary": {
+          "diffs": []
+        },
+        "id": "msg_03d6f5e2a001d1nxrRerEdppa6",
+        "sessionID": "ses_fc290a289ffeF5S6gxgY1GQsez"
+      },
+      "parts": [
+        {
+          "type": "text",
+          "text": "when [open-repo](home/scripts/open-repo) trigger, it should open fzf with option to open in github, better-hub, open-git, codeberg, gitea and entire",
+          "id": "prt_03d6f5e47001uVjTF4e9GEQEV6",
+          "sessionID": "ses_fc290a289ffeF5S6gxgY1GQsez",
+          "messageID": "msg_03d6f5e2a001d1nxrRerEdppa6"
+        }
+      ]
+    },
+    {
+      "info": {
+        "parentID": "msg_03d6f5e2a001d1nxrRerEdppa6",
+        "role": "assistant",
+        "mode": "build",
+        "agent": "build",
+        "variant": "max",
+        "path": {
+          "cwd": "/home/himmel/dev/environment",
+          "root": "/home/himmel/dev/environment"
+        },
+        "cost": 0,
+        "tokens": {
+          "input": 0,
+          "output": 0,
+          "reasoning": 0,
+          "cache": {
+            "read": 0,
+            "write": 0
+          }
+        },
+        "modelID": "x-preview-f-free",
+        "providerID": "opencode",
+        "time": {
+          "created": 1787737105155,
+          "completed": 1787737118374
+        },
+        "error": {
+          "name": "MessageAbortedError",
+          "data": {
+            "message": "Aborted"
+          }
+        },
+        "id": "msg_03d6f6303001ODZFaA11chHH1J",
+        "sessionID": "ses_fc290a289ffeF5S6gxgY1GQsez"
+      },
+      "parts": [
+        {
+          "snapshot": "a3ffc04e74254377c039cf21cbdf8294d0d7ed76",
+          "type": "step-start",
+          "id": "prt_03d6f7cc9001p40TiEAgaKtu3H",
+          "sessionID": "ses_fc290a289ffeF5S6gxgY1GQsez",
+          "messageID": "msg_03d6f6303001ODZFaA11chHH1J"
+        },
+        {
+          "type": "reasoning",
+          "text": "The user wants me to modify a script at `home/scripts/open-repo` (relative path, probably `~/scripts/open-repo` or in the working directory `home/scripts/open-repo`). When triggered, it should open fzf with options to open the repo in GitHub, BetterHub (probably \"better-hub\"), open-git, Codeberg, Gitea... \"and entire\" - maybe they mean all of them? Let me first read the script to understand what it does.\n\nLet me look at the file.",
+          "time": {
+            "start": 1787737111761,
+            "end": 1787737114800
+          },
+          "id": "prt_03d6f7cd1001E46R6G1QASR4tO",
+          "sessionID": "ses_fc290a289ffeF5S6gxgY1GQsez",
+          "messageID": "msg_03d6f6303001ODZFaA11chHH1J"
+        },
+        {
+          "type": "tool",
+          "tool": "read",
+          "callID": "call_4b7b5771fc9740c1b064b007",
+          "state": {
+            "status": "error",
+            "input": {},
+            "raw": "",
+            "error": "Tool execution aborted",
+            "metadata": {
+              "interrupted": true
+            },
+            "time": {
+              "start": 1787737118370,
+              "end": 1787737118370
+            }
+          },
+          "id": "prt_03d6f88c3001W0cZVIWuSOBz3O",
+          "sessionID": "ses_fc290a289ffeF5S6gxgY1GQsez",
+          "messageID": "msg_03d6f6303001ODZFaA11chHH1J"
+        }
+      ]
+    }
+  ]
+}
