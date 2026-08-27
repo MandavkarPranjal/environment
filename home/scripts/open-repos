@@ -63,7 +63,8 @@ destination=$(printf '%s\n' \
     "Gitea" \
     "Entire" \
     "Trylle" \
-    "GitCafe" |
+    "GitCafe" \
+    "GitLab" |
     fz "Open in: ")
 
 if [[ -z "$destination" ]]; then
@@ -94,6 +95,9 @@ case "$destination" in
         ;;
     "GitCafe")
         url="https://git.cafe/$repo_path"
+        ;;
+    "GitLab")
+        url="https://gitlab.com/$repo_path"
         ;;
 esac
 
