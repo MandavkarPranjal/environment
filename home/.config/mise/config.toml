@@ -1,5 +1,6 @@
 [tools]
 "aqua:modem-dev/hunk" = "latest"
 codex = "latest"
+go = "latest"
 opencode = "latest"
 pnpm = "11.21.0"

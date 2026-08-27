@@ -238,7 +238,8 @@ export NVM_DIR="$HOME/.config/nvm"
 [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
 
 # go
-export PATH=$PATH:$HOME/go/bin # This is to use go application installed with `go install`
+export GOPATH="${GOPATH:-$HOME/go}"
+export PATH="$PATH:$GOPATH/bin" # This is to use Go applications installed with `go install`
 
 # Turso
 export PATH="$PATH:/home/himmel/.turso"
