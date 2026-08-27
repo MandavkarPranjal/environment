@@ -48,6 +48,7 @@ else
     repo_path="${repo_path#*/}"
 fi
 repo_path="${repo_path%.git}"
+repo_path="$(printf '%s' "$repo_path" | tr '[:upper:]' '[:lower:]')"
 
 if [[ -z "$repo_path" || "$repo_path" == "$remote_url" && "$remote_url" != git@*:* ]]; then
     echo "Could not determine repository path from remote: $remote_url"
@@ -60,7 +61,8 @@ destination=$(printf '%s\n' \
     "OpenGit" \
     "Codeberg" \
     "Gitea" \
-    "Entire" |
+    "Entire" \
+    "Trylle" |
     fz "Open in: ")
 
 if [[ -z "$destination" ]]; then
@@ -85,6 +87,9 @@ case "$destination" in
         ;;
     "Entire")
         url="https://entire.io/gh/$repo_path"
+        ;;
+    "Trylle")
+        url="https://trylle.com/$repo_path"
         ;;
 esac
 
