@@ -10,7 +10,7 @@ matches:
     replace: "pranjalmandavkar01@gmail.com"
 
   - trigger: ":git"
-    replace: "MandavkarPranjal"
+    replace: "mandavkarpranjal"
 
   - trigger: ":gh"
     replace: "https://github.com/MandavkarPranjal"
