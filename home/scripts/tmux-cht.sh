@@ -1,35 +1,45 @@
 #!/usr/bin/env bash
+set -u
 
 LANG_FILE="$HOME/.tmux-cht-languages"
 CMD_FILE="$HOME/.tmux-cht-command"
+
+# POSIX-sh-safe single-quote escaping so URLs with special characters
+# (spaces, quotes, &) survive the tmux window command.
+sh_quote() {
+    printf "'%s'" "${1//\'/\'\\\'\'}"
+}
+
+open_cht() {
+    local title="$1"
+    local url="$2"
+    local cmd="curl -s -- $(sh_quote "$url") | less -R"
+
+    if [[ -n "${TMUX:-}" ]]; then
+        tmux new-window -n "$title" "$cmd"
+    else
+        curl -s -- "$url" | less -R
+    fi
+}
 
 show_topic() {
     local topic="$1"
     local query="$2"
     local url
 
-    if grep -q "$topic" "$LANG_FILE"; then
+    if grep -qsFx -- "$topic" "$LANG_FILE"; then
         url="https://cht.sh/$topic/${query// /+}"
     else
         url="https://cht.sh/$topic~${query// /+}"
     fi
 
-    if [[ -n $TMUX ]]; then
-        tmux neww bash -c "curl -s \"$url\" | less -R"
-    else
-        curl -s "$url" | less -R
-    fi
+    open_cht "cht.sh:$topic" "$url"
 }
 
 show_overview() {
     local topic="$1"
-    local url="https://cht.sh/$topic"
 
-    if [[ -n $TMUX ]]; then
-        tmux neww bash -c "curl -s \"$url\" | less -R"
-    else
-        curl -s "$url" | less -R
-    fi
+    open_cht "cht.sh:$topic" "https://cht.sh/$topic"
 }
 
 if [[ $# -eq 1 ]]; then
@@ -58,16 +68,16 @@ selected=$(
         --header="Select a topic" \
         --delimiter=' ' \
         --with-nth='2..' \
-        --preview='if grep -qs "{2}" '"$LANG_FILE"'; then curl -s "https://cht.sh/{2}/:list"; else curl -s "https://cht.sh/{2}"; fi | head -40' \
-        --preview-window='right:60%:wrap'
+        --preview='if grep -qsF -- "{2}" '"$LANG_FILE"'; then curl -s "https://cht.sh/{2}/:list"; else curl -s "https://cht.sh/{2}"; fi | head -40' \
+        --preview-window='right:60%:wrap' || true
 )
 
-[[ -z $selected ]] && exit 0
+[[ -n "${selected:-}" ]] || exit 0
 
-topic=$(echo "$selected" | awk '{print $2}')
+topic="$(awk '{print $2}' <<<"$selected")"
 
-if echo "$selected" | grep -q '^\[lang\]'; then
-    read -p "Enter Query: " query
+if [[ $selected == '[lang]'* ]]; then
+    read -rp "Enter Query: " query || query=""
     query=${query// /+}
     if [[ -n $query ]]; then
         url="https://cht.sh/$topic/$query"
@@ -75,7 +85,7 @@ if echo "$selected" | grep -q '^\[lang\]'; then
         url="https://cht.sh/$topic"
     fi
 else
-    read -p "Enter Query (optional): " query
+    read -rp "Enter Query (optional): " query || query=""
     if [[ -n $query ]]; then
         url="https://cht.sh/$topic~${query// /+}"
     else
@@ -83,8 +93,4 @@ else
     fi
 fi
 
-if [[ -n $TMUX ]]; then
-    tmux neww bash -c "curl -s \"$url\" | less -R"
-else
-    curl -s "$url" | less -R
-fi
+open_cht "cht.sh:$topic" "$url"

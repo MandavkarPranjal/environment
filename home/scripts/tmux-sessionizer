@@ -1,65 +1,100 @@
 #!/usr/bin/env bash
+set -euo pipefail
+
+# Pick a project with fzf, create a tmux session for it if needed
+# (windows: nvim / shell / opencode), then attach or switch to it.
+#
+# Works from inside tmux, from inside a tmux display-popup (where TMUX is
+# set but TMUX_PANE is not), and from a plain shell with no tmux server.
 
 switch_to() {
-    if [[ -z $TMUX ]]; then
-        tmux attach-session -t $1
+    if [[ -z "${TMUX:-}" ]]; then
+        exec tmux attach-session -t "$1"
     else
-        tmux switch-client -t $1
+        tmux switch-client -t "$1"
     fi
 }
 
 has_session() {
-    tmux list-sessions | grep -q "^$1:"
+    tmux has-session -t "$1" 2>/dev/null
 }
 
+# Run a project-specific (or $HOME fallback) .tmux-sessionizer in the
+# session's shell window. It is sourced as shell, so it can use tmux
+# commands or plain setup steps; it never gets typed into the nvim pane.
 hydrate() {
-    if [ -f $2/.tmux-sessionizer ]; then
-        tmux send-keys -t $1 "source $2/.tmux-sessionizer" c-M
-    elif [ -f $HOME/.tmux-sessionizer ]; then
-        tmux send-keys -t $1 "source $HOME/.tmux-sessionizer" c-M
+    local session_name="$1"
+    local project_path="$2"
+    local hook=""
+
+    if [[ -f "$project_path/.tmux-sessionizer" ]]; then
+        hook="$project_path/.tmux-sessionizer"
+    elif [[ -f "$HOME/.tmux-sessionizer" ]]; then
+        hook="$HOME/.tmux-sessionizer"
+    else
+        return 0
+    fi
+
+    tmux send-keys -t "$session_name:shell" "source $(printf '%q' "$hook")" Enter
+}
+
+# Depth-1 project roots. Kept in sync with ./sessionizer-setup. Each root
+# contributes distinct candidates, so all are kept; missing ones are
+# skipped and exact duplicates are removed with sort -u.
+project_roots=(
+    "$HOME/projects"
+    "$HOME"
+    "$HOME/work"
+    "$HOME/dev"
+    "$HOME/dev/environment"
+    "$HOME/personal"
+    "$HOME/personal/yt"
+    "$HOME/personal/templates"
+    "$HOME/100xdev-WebDev"
+    "$HOME/sandbox"
+)
+
+pick_project() {
+    local existing=()
+    local root
+    for root in "${project_roots[@]}"; do
+        [[ -d "$root" ]] && existing+=("$root")
+    done
+    [[ ${#existing[@]} -gt 0 ]] || return 0
+
+    if command -v fd >/dev/null 2>&1; then
+        fd --max-depth 1 --type d --hidden --exclude .git . "${existing[@]}" 2>/dev/null | sort -u
+    else
+        find "${existing[@]}" -mindepth 1 -maxdepth 1 -type d 2>/dev/null | sort -u
     fi
 }
 
 if [[ $# -eq 1 ]]; then
-    selected=$1
+    selected="$1"
 else
-    selected=$(find ~/projects ~/ ~/work ~/dev ~/dev/environment ~/personal ~/personal/yt ~/personal/templates/ ~/100xdev-WebDev ~/sandbox -mindepth 1 -maxdepth 1 -type d | fzf)
+    selected="$(pick_project | fzf || true)"
 fi
 
-if [[ -z $selected ]]; then
-    exit 0
-fi
+[[ -n "${selected:-}" ]] || exit 0
 
-selected_name=$(basename "$selected" | tr . _)
-tmux_running=$(pgrep tmux)
+# Deterministic session name. Dots and colons break tmux target parsing
+# (session:window), so both become underscores. Everything is quoted, so
+# spaces in paths are safe.
+selected_name="$(basename "$selected")"
+selected_name="${selected_name//./_}"
+selected_name="${selected_name//:/_}"
+[[ -n "$selected_name" ]] || exit 0
 
-create_session() {
-    local session_name=$1
-    local session_path=$2
-    local detached=$3
-
-    if [[ $detached == "true" ]]; then
-        tmux new-session -ds $session_name -c $session_path
+# Atomic-ish creation: only the creator builds windows. A concurrent
+# invocation that loses the race falls through to switch/attach.
+if ! has_session "$selected_name"; then
+    if tmux new-session -d -s "$selected_name" -n nvim -c "$selected" 'nvim'; then
+        tmux new-window -d -t "$selected_name" -n shell -c "$selected"
+        tmux new-window -d -t "$selected_name" -n opencode -c "$selected" 'opencode .'
+        hydrate "$selected_name" "$selected"
     else
-        tmux new-session -s $session_name -c $session_path
+        has_session "$selected_name" || exit 1
     fi
-
-    tmux send-keys -t "$session_name:1" "nvim" c-M
-    tmux new-window -t $session_name -c $session_path
-    tmux new-window -t $session_name:69 -c $session_path
-    tmux send-keys -t "$session_name:69" "opencode ." c-M
-    tmux select-window -t "$session_name:1"
-    hydrate $session_name $session_path
-}
-
-if [[ -z $TMUX ]] && [[ -z $tmux_running ]]; then
-    create_session $selected_name $selected true
-    tmux attach-session -t $selected_name
-    exit 0
 fi
 
-if ! has_session $selected_name; then
-    create_session $selected_name $selected true
-fi
-
-switch_to $selected_name
+switch_to "$selected_name"

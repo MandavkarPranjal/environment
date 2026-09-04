@@ -18,7 +18,7 @@ vim.keymap.set("n", "<leader>Y", [["+Y]])
 vim.keymap.set("i", "<C-c>", "<Esc>")
 
 vim.keymap.set("n", "Q", "<nop>")
-vim.keymap.set("n", "<C-f>", "<cmd>silent !tmux neww tmux-sessionizer<CR>", { desc = "Open tmux sessionizer" })
+vim.keymap.set("n", "<C-f>", "<cmd>silent !tmux display-popup -E -w 50% -h 40% -d \"#{pane_current_path}\" \"tmux-sessionizer\"<CR>", { desc = "Open tmux sessionizer" })
 vim.keymap.set("n", "<C-i>", ":silent !tmux neww tmux-cht.sh<CR>", { desc = "Open cht sheet" })
 vim.keymap.set("n", "<C-g>", ":silent !tmux neww ignore<CR>", { desc = "Open gitignorer" })
 -- vim.keymap.set("n", "<leader>f", vim.lsp.buf.format)

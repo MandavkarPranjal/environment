@@ -1,14 +1,20 @@
 #!/usr/bin/env bash
+set -u
 
-sessions=$(tmux list-sessions -F "#{session_name}")
+sessions="$(tmux list-sessions -F '#{session_name}' 2>/dev/null || true)"
 
-selected=$(echo "$sessions" | fzf)
+if [[ -z "$sessions" ]]; then
+    echo "tmux-list: no tmux server or no sessions" >&2
+    exit 0
+fi
 
-if [[ -n "$selected" ]]; then
-  # Check if inside a tmux session
-  if [[ -z "$TMUX" ]]; then
-    tmux attach-session -t "$selected"
-  else
-    tmux switch-client -t "$selected"
-  fi
+selected="$(printf '%s\n' "$sessions" | fzf || true)"
+
+if [[ -n "${selected:-}" ]]; then
+    # Check if inside a tmux session
+    if [[ -z "${TMUX:-}" ]]; then
+        exec tmux attach-session -t "$selected"
+    else
+        tmux switch-client -t "$selected"
+    fi
 fi

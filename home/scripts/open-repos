@@ -18,16 +18,16 @@ else
     fz() { fzf --prompt="$1" --height=40% --reverse; }
 fi
 
-remotes=$(git remote -v | grep '(fetch)' | awk '{print $1 " -> " $2}')
+remotes=$(git remote -v 2>/dev/null | awk '/\(fetch\)/ {print $1 " -> " $2}' || true)
 
 if [[ -z "$remotes" ]]; then
     echo "No git remotes found"
     exit 1
 fi
 
-remote_count=$(echo "$remotes" | wc -l)
+mapfile -t remote_lines <<<"$remotes"
 
-if [[ $remote_count -eq 1 ]]; then
+if [[ ${#remote_lines[@]} -eq 1 ]]; then
     selected="$remotes"
 else
     selected=$(echo "$remotes" | fz "Select remote: ")
@@ -37,7 +37,8 @@ else
     fi
 fi
 
-remote_url=$(echo "$selected" | awk '{print $3}')
+remote_name="$(awk '{print $1}' <<<"$selected")"
+remote_url="$(git remote get-url "$remote_name" 2>/dev/null || true)"
 
 # Turn common Git remote formats into an owner/repository path. This lets the
 # same local repository be opened in any of the supported web frontends.
