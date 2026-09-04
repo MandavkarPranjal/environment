@@ -554,3 +554,10 @@ fpath=(~/.grok/completions/zsh $fpath)
 autoload -Uz compinit && compinit -C
 # <<< grok installer <<<
 export QS_SEC_AUR_MALWARE=/home/himmel/.config/omarchy/plugins/io.github.elynch303.security-scan/AUR-Malware/check-atomic-arch_new.sh
+
+# trylle cli
+alias trylle="trylle-cli"
+
+# try cli
+eval "$(try init)"
+alias t="try"
