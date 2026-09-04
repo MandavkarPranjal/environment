@@ -14,7 +14,7 @@ hl.unbind("SUPER + ALT + RETURN")
 o.bind(
 	"SUPER + ALT + RETURN",
 	"Tmux",
-	[[uwsm-app -- xdg-terminal-exec --dir="$(omarchy-cmd-terminal-cwd)" bash -c "tmux attach || tmux new -s Work"]]
+	[[uwsm-app -- xdg-terminal-exec --dir="$(omarchy-cmd-terminal-cwd)" bash -c "exec tmux new-session -A -s Work"]]
 )
 
 hl.unbind("ALT + SHIFT + RETURN")
