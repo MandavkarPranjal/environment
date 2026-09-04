@@ -37,3 +37,11 @@ require("default.hypr.toggles")
 
 -- Add any other personal Hyprland configuration below.
 -- o.window("qemu", { workspace = "5" })
+
+-- resolve-full-opacity (added by Omarchy_resolve_v2.sh): Omarchy's default
+-- window translucency is wrong for colour-critical work; keep DaVinci
+-- Resolve fully opaque. Loaded after Omarchy defaults, so this rule wins.
+o.window(".*[Rr]esolve.*", { opacity = "1 1" })
+
+-- Open DaVinci Resolve's main window over the Omarchy bar instead of under it.
+require("hypr.davinci-resolve")
