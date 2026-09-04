@@ -1,0 +1,36 @@
+{
+  "cli_version": "0.10.2",
+  "checkpoint_id": "292646339874",
+  "session_id": "ses_f92e9f1feffe9QqSbwGSGB4cyb",
+  "strategy": "manual-commit",
+  "created_at": "2026-09-04T15:57:20.548947653Z",
+  "branch": "main",
+  "checkpoints_count": 1,
+  "save_step_count": 1,
+  "files_touched": [
+    "home/.config/nvim/lua/lostheaven/remap.lua",
+    "home/.config/tmux/tmux.conf",
+    "home/scripts/open-repos",
+    "home/scripts/tmux-cht.sh",
+    "home/scripts/tmux-list",
+    "home/scripts/tmux-sessionizer"
+  ],
+  "agent": "OpenCode",
+  "model": "muse-spark-1.3-contributor-free",
+  "turn_id": "aa1149ec6f31",
+  "session_metrics": {
+    "turn_count": 1
+  },
+  "initial_attribution": {
+    "calculated_at": "2026-09-04T15:57:20.52979792Z",
+    "agent_lines": 130,
+    "agent_removed": 82,
+    "human_added": 0,
+    "human_modified": 0,
+    "human_removed": 0,
+    "total_committed": 130,
+    "total_lines_changed": 212,
+    "agent_percentage": 100,
+    "metric_version": 2
+  }
+}

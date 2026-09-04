@@ -1,0 +1,23 @@
+{
+  "cli_version": "0.10.2",
+  "checkpoint_id": "292646339874",
+  "strategy": "manual-commit",
+  "branch": "main",
+  "checkpoints_count": 1,
+  "files_touched": [
+    "home/.config/nvim/lua/lostheaven/remap.lua",
+    "home/.config/tmux/tmux.conf",
+    "home/scripts/open-repos",
+    "home/scripts/tmux-cht.sh",
+    "home/scripts/tmux-list",
+    "home/scripts/tmux-sessionizer"
+  ],
+  "sessions": [
+    {
+      "metadata": "/29/2646339874/0/metadata.json",
+      "transcript": "/29/2646339874/0/full.jsonl",
+      "content_hash": "/29/2646339874/0/content_hash.txt",
+      "prompt": ""
+    }
+  ]
+}
