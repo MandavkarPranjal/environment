@@ -4,6 +4,13 @@ export PATH=$HOME/bin:$HOME/.local/bin:/usr/local/bin:$PATH
 # Path to your Oh My Zsh installation.
 export ZSH="$HOME/.oh-my-zsh"
 
+# Normalize an inherited trailing slash in $PWD (tmux -c, terminal
+# --dir flags, nested env passing). zsh keeps it verbatim, and then
+# robbyrussell's %c prompt segment renders empty.
+if [[ "$PWD" == */ && "$PWD" != / ]]; then
+    cd "${PWD%/}" >/dev/null 2>&1 || true
+fi
+
 # Set name of the theme to load --- if set to "random", it will
 # load a random theme each time Oh My Zsh is loaded, in which case,
 # to know which specific one was loaded, run: echo $RANDOM_THEME

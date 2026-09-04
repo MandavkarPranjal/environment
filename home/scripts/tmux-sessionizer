@@ -77,6 +77,13 @@ fi
 
 [[ -n "${selected:-}" ]] || exit 0
 
+# Strip trailing slashes (fd appends "/" to directories). A slashed path
+# would poison the pane's $PWD, and zsh keeps an inherited slashed $PWD
+# verbatim -- which makes robbyrussell's %c prompt segment render empty.
+while [[ "$selected" == */ && "$selected" != / ]]; do
+    selected="${selected%/}"
+done
+
 # Deterministic session name. Dots and colons break tmux target parsing
 # (session:window), so both become underscores. Everything is quoted, so
 # spaces in paths are safe.
