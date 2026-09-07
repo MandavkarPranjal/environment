@@ -283,7 +283,7 @@ compinit -u
 if [[ ":$FPATH:" != *":/home/himmel/.zsh/completions:"* ]]; then export FPATH="/home/himmel/.zsh/completions:$FPATH"; fi
 
 # pnpm
-export PNPM_HOME="/home/himmel/.local/share/mise/installs/pnpm/latest/pnpm"
+export PNPM_HOME="/home/himmel/.local/share/pnpm"
 case ":$PATH:" in
   *":$PNPM_HOME:"*) ;;
   *) export PATH="$PNPM_HOME:$PATH" ;;
