@@ -96,8 +96,7 @@ selected_name="${selected_name//:/_}"
 # invocation that loses the race falls through to switch/attach.
 if ! has_session "$selected_name"; then
     if tmux new-session -d -s "$selected_name" -n nvim -c "$selected" 'nvim'; then
-        tmux new-window -d -t "$selected_name" -n shell -c "$selected"
-        tmux new-window -d -t "$selected_name" -n opencode -c "$selected" 'opencode .'
+        tmux new-window -d -t "$selected_name" -c "$selected"
         hydrate "$selected_name" "$selected"
     else
         has_session "$selected_name" || exit 1
