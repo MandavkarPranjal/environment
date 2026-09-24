@@ -136,3 +136,6 @@ o.bind(
 
 -- Switch audio output on ALT + Mute.
 o.bind("ALT + XF86AudioMute", "Switch audio output", "omarchy-audio-output-switch", { locked = true })
+
+-- t3code
+o.bind("CTRL + SHIFT + 2", hl.dsp.global("com.t3tools.T3Code:capture-window"))
