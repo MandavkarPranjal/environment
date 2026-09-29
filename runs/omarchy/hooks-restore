@@ -17,13 +17,35 @@ if command -v rsync > /dev/null 2>&1; then
         exit 1
     }
 else
-    # Copy first so a failure never leaves the hooks dir wiped, exclude
-    # samples like rsync does, then delete only hooks missing from the
-    # snapshot (never *.sample, which belong to the user).
+    # Copy first so a failure never leaves the hooks dir wiped. rsync
+    # deletes conflicting destination entries before transferring, but tar
+    # aborts the whole extraction instead, so pre-remove paths whose type
+    # differs from the snapshot (never anything holding user *.sample files).
+    while IFS= read -r -d '' rel; do
+        s="$src/$rel"
+        d="$dst/$rel"
+        if [[ ( -f "$s" || -L "$s" ) && -d "$d" ]]; then
+            if [[ -z "$(find "$d" -name '*.sample' -print -quit)" ]]; then
+                rm -rf "$d" || {
+                    echo "FAILED: removing conflicting path: $rel" >&2
+                    exit 1
+                }
+            fi
+        elif [[ -d "$s" && ( -f "$d" || -L "$d" ) ]]; then
+            rm -f "$d" || {
+                echo "FAILED: removing conflicting path: $rel" >&2
+                exit 1
+            }
+        fi
+    done < <(cd "$src" && find . -mindepth 1 -printf '%P\0')
+
     tar -C "$src" --exclude='*.sample' -cf - . | tar -C "$dst" -xf - || {
         echo "FAILED: restoring hooks" >&2
         exit 1
     }
+
+    # Delete only what the snapshot does not have (rsync --delete);
+    # user *.sample files are never touched.
     while IFS= read -r -d '' rel; do
         if [[ ! -e "$src/$rel" && ! -L "$src/$rel" ]]; then
             rm -f "$dst/$rel" || {
@@ -32,6 +54,20 @@ else
             }
         fi
     done < <(cd "$dst" && find . -mindepth 1 ! -type d ! -name '*.sample' -printf '%P\0')
-    find "$dst" -mindepth 1 -type d -empty -delete
+
+    # Drop stale directories (skipping any that hold user *.sample files);
+    # directories present in the snapshot are kept even when empty, like
+    # rsync does.
+    while IFS= read -r -d '' rel; do
+        d="$dst/$rel"
+        if [[ -d "$d" && ! -d "$src/$rel" ]]; then
+            if [[ -z "$(find "$d" -name '*.sample' -print -quit)" ]]; then
+                rm -rf "$d" || {
+                    echo "FAILED: removing stale hook dir: $rel" >&2
+                    exit 1
+                }
+            fi
+        fi
+    done < <(cd "$dst" && find . -mindepth 1 -type d -printf '%P\0')
 fi
 echo "Hooks restored."
