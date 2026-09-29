@@ -1,0 +1,20 @@
+#!/usr/bin/env bash
+set -uo pipefail
+
+script_dir="$(cd "$(dirname "${BASH_SOURCE[0]}")" &> /dev/null && pwd)"
+src="$script_dir/hooks"
+dst="$HOME/.config/omarchy/hooks"
+
+if [[ ! -d "$src" ]]; then
+    echo "No hooks snapshot found."
+    exit 0
+fi
+
+mkdir -p "$dst"
+if command -v rsync > /dev/null 2>&1; then
+    rsync -a --delete --exclude='*.sample' "$src/" "$dst/"
+else
+    cp -a "$src/." "$dst/"
+    find "$dst" -name '*.sample' -delete
+fi
+echo "Hooks restored."

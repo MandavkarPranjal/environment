@@ -3,7 +3,7 @@
 script_dir="$(cd "$(dirname "${BASH_SOURCE[0]}")" &> /dev/null && pwd)"
 
 if [ -z "$1" ]; then
-    echo "Usage: $0 <apt|pacman> [--dry] [skip-filter1] [skip-filter2] ..."
+    echo "Usage: $0 <apt|pacman|yay|flatpak|omarchy> [--dry] [skip-filter1] [skip-filter2] ..."
     exit 1
 fi
 
@@ -39,6 +39,8 @@ log() {
     fi
 }
 
+failures=0
+
 log "Running scripts in '$pkg_manager'... (Skipping: ${skip_filters[*]:-None})"
 
 for script in "$scripts_dir"/*; do
@@ -49,10 +51,18 @@ for script in "$scripts_dir"/*; do
         fi
     done
 
-    if [[ -x "$script" ]]; then
+    if [[ -f "$script" && -x "$script" ]]; then
         log "Executing: $script"
-        [[ $dry_run == "0" ]] && "$script"
-    else
-        log "Skipping non-executable file: $script"
+        if [[ $dry_run == "0" ]]; then
+            if ! "$script"; then
+                echo "FAILED: $script" >&2
+                failures=$((failures + 1))
+            fi
+        fi
     fi
 done
+
+if [[ $failures -gt 0 ]]; then
+    echo "$failures script(s) failed." >&2
+    exit 1
+fi

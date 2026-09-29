@@ -1,0 +1,36 @@
+#!/usr/bin/env bash
+set -uo pipefail
+
+script_dir="$(cd "$(dirname "${BASH_SOURCE[0]}")" &> /dev/null && pwd)"
+omarchy_dir="$HOME/.config/omarchy"
+
+if [[ -d "$script_dir/themed" ]]; then
+    mkdir -p "$omarchy_dir/themed"
+    cp -a "$script_dir/themed/." "$omarchy_dir/themed/"
+    echo "Themed templates restored."
+fi
+
+if ! command -v omarchy > /dev/null 2>&1; then
+    echo "omarchy not found, skipping theme."
+    exit 0
+fi
+
+if [[ -f "$script_dir/theme.name" ]]; then
+    name="$(< "$script_dir/theme.name")"
+    if [[ -n "$name" ]]; then
+        omarchy theme set "$name" || { echo "failed to set theme: $name"; exit 1; }
+    fi
+else
+    echo "No theme.name snapshot found."
+fi
+
+if [[ -f "$script_dir/background.path" ]]; then
+    bg="$(sed "s|__HOME__|$HOME|g" "$script_dir/background.path")"
+    if [[ -e "$bg" ]]; then
+        omarchy theme bg set "$bg" || echo "warning: could not set background"
+    else
+        echo "warning: background not found: $bg"
+    fi
+else
+    echo "No background.path snapshot found."
+fi

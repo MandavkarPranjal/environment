@@ -1,0 +1,88 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+script_dir="$(cd "$(dirname "${BASH_SOURCE[0]}")" &> /dev/null && pwd)"
+home_dir="$HOME"
+home_re="$(printf '%s' "$home_dir" | sed 's/[][\.*^$|&\/]/\\&/g')"
+runs_dir="$script_dir/runs"
+
+tokenize() {
+    sed "s|$home_re|__HOME__|g"
+}
+
+mkdir -p "$runs_dir/pacman" "$runs_dir/yay" "$runs_dir/flatpak" "$runs_dir/omarchy"
+
+if command -v pacman > /dev/null 2>&1; then
+    pacman -Qqen | grep -vE '^(linux|nvidia|lib32-nvidia|vulkan|lib32-vulkan|mesa)' | sort > "$runs_dir/pacman/packages.list" || true
+    echo "pacman: $(wc -l < "$runs_dir/pacman/packages.list") packages -> runs/pacman/packages.list"
+    pacman -Qqem | sort > "$runs_dir/yay/aur.list" || true
+    echo "aur: $(wc -l < "$runs_dir/yay/aur.list") packages -> runs/yay/aur.list"
+fi
+
+if command -v flatpak > /dev/null 2>&1; then
+    flatpak list --app --columns=application,origin | sort -u > "$runs_dir/flatpak/apps.list" || true
+    echo "flatpak: $(wc -l < "$runs_dir/flatpak/apps.list") apps -> runs/flatpak/apps.list"
+fi
+
+omarchy_dir="$home_dir/.config/omarchy"
+
+if [[ -d "$omarchy_dir" ]]; then
+    if [[ -f "$omarchy_dir/shell.json" ]]; then
+        tokenize < "$omarchy_dir/shell.json" > "$runs_dir/omarchy/shell.json"
+        echo "omarchy: shell.json -> runs/omarchy/shell.json"
+    fi
+
+    if [[ -f "$omarchy_dir/extensions/omarchy-menu.jsonc" ]]; then
+        cp "$omarchy_dir/extensions/omarchy-menu.jsonc" "$runs_dir/omarchy/omarchy-menu.jsonc"
+        echo "omarchy: omarchy-menu.jsonc -> runs/omarchy/omarchy-menu.jsonc"
+    fi
+
+    if [[ -d "$omarchy_dir/plugins" ]]; then
+        : > "$runs_dir/omarchy/plugins.list"
+        for plugin in "$omarchy_dir/plugins"/*/; do
+            [[ -d "$plugin" ]] || continue
+            id="$(basename "$plugin")"
+            if ! url="$(git -C "$plugin" remote get-url origin 2>/dev/null)"; then
+                echo "omarchy: warning: no git remote for plugin '$id', skipping" >&2
+                continue
+            fi
+            printf '%s\t%s\n' "$id" "$url" >> "$runs_dir/omarchy/plugins.list"
+        done
+        sort -o "$runs_dir/omarchy/plugins.list" "$runs_dir/omarchy/plugins.list"
+        echo "omarchy: $(wc -l < "$runs_dir/omarchy/plugins.list") plugins -> runs/omarchy/plugins.list"
+    fi
+
+    if command -v omarchy > /dev/null 2>&1; then
+        omarchy theme current > "$runs_dir/omarchy/theme.name"
+        echo "omarchy: theme '$(< "$runs_dir/omarchy/theme.name")' -> runs/omarchy/theme.name"
+    fi
+
+    if [[ -f "$home_dir/.local/state/omarchy/current/background" ]]; then
+        tokenize < <(readlink -f "$home_dir/.local/state/omarchy/current/background") > "$runs_dir/omarchy/background.path"
+        echo "omarchy: background -> runs/omarchy/background.path"
+    fi
+
+    if [[ -d "$omarchy_dir/hooks" ]]; then
+        if command -v rsync > /dev/null 2>&1; then
+            rsync -a --delete --exclude='*.sample' "$omarchy_dir/hooks/" "$runs_dir/omarchy/hooks/"
+        else
+            mkdir -p "$runs_dir/omarchy/hooks"
+            cp -a "$omarchy_dir/hooks/." "$runs_dir/omarchy/hooks/"
+            find "$runs_dir/omarchy/hooks" -name '*.sample' -delete
+        fi
+        echo "omarchy: hooks -> runs/omarchy/hooks/"
+    fi
+
+    if [[ -d "$omarchy_dir/themed" ]]; then
+        if command -v rsync > /dev/null 2>&1; then
+            rsync -a --delete --exclude='*.sample' --exclude='*.bak' "$omarchy_dir/themed/" "$runs_dir/omarchy/themed/"
+        else
+            mkdir -p "$runs_dir/omarchy/themed"
+            cp -a "$omarchy_dir/themed/." "$runs_dir/omarchy/themed/"
+            find "$runs_dir/omarchy/themed" \( -name '*.sample' -o -name '*.bak' \) -delete
+        fi
+        echo "omarchy: themed templates -> runs/omarchy/themed/"
+    fi
+fi
+
+echo "Snapshot complete."

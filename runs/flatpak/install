@@ -1,0 +1,35 @@
+#!/usr/bin/env bash
+set -uo pipefail
+
+if ! command -v flatpak > /dev/null 2>&1; then
+    echo "flatpak not installed, skipping."
+    exit 0
+fi
+
+script_dir="$(cd "$(dirname "${BASH_SOURCE[0]}")" &> /dev/null && pwd)"
+list_file="$script_dir/apps.list"
+
+if [[ ! -f "$list_file" ]]; then
+    echo "No apps.list found."
+    exit 0
+fi
+
+if ! flatpak remotes --columns=name | grep -qx flathub; then
+    sudo flatpak remote-add --if-not-exists flathub https://dl.flathub.org/repo/flathub.flatpakrepo
+fi
+
+failed=0
+count=0
+while IFS=$'\t' read -r id origin; do
+    [[ -z "$id" || "$id" == \#* ]] && continue
+    count=$((count + 1))
+    if flatpak info "$id" > /dev/null 2>&1; then
+        echo "ok: $id"
+        continue
+    fi
+    echo "installing: $id"
+    flatpak install -y "${origin:-flathub}" "$id" || { echo "failed: $id"; failed=1; }
+done < "$list_file"
+
+echo "$count flatpak app(s) checked."
+exit "$failed"
