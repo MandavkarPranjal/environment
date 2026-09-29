@@ -13,7 +13,7 @@ tokenize() {
 mkdir -p "$runs_dir/pacman" "$runs_dir/yay" "$runs_dir/flatpak" "$runs_dir/omarchy"
 
 if command -v pacman > /dev/null 2>&1; then
-    if pacman -Qqen | grep -vE '^(linux(-(lts|zen|hardened|rt|omarchy))?(-headers)?|nvidia[^[:space:]]*|lib32-nvidia[^[:space:]]*|vulkan-(intel|radeon|nouveau)|lib32-vulkan-(intel|radeon)|mesa)$' | sort > "$runs_dir/pacman/packages.list"; then
+    if pacman -Qqen | { grep -vE '^(linux(-(lts|zen|hardened|rt|omarchy))?(-headers)?|nvidia[^[:space:]]*|lib32-nvidia[^[:space:]]*|vulkan-(intel|radeon|nouveau)|lib32-vulkan-(intel|radeon)|mesa)$' || [[ $? -eq 1 ]]; } | sort > "$runs_dir/pacman/packages.list"; then
         echo "pacman: $(wc -l < "$runs_dir/pacman/packages.list") packages -> runs/pacman/packages.list"
     else
         echo "snapshot: warning: failed to list native packages" >&2

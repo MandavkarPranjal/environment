@@ -16,28 +16,32 @@ fi
 
 echo "Installing ${#pkgs[@]} AUR packages..."
 
-msg="No AUR helper found. Run ./arch-setup first."
+failed_helpers=()
 
 if command -v yay > /dev/null 2>&1; then
     if yay -S --needed --noconfirm "${pkgs[@]}"; then
         exit 0
     fi
-    msg="yay failed to install AUR packages."
+    failed_helpers+=("yay")
 fi
 
 if command -v paru > /dev/null 2>&1; then
     if paru -S --needed --noconfirm "${pkgs[@]}"; then
         exit 0
     fi
-    msg="paru failed to install AUR packages."
+    failed_helpers+=("paru")
 fi
 
 if command -v omarchy > /dev/null 2>&1; then
     if omarchy pkg aur add "${pkgs[@]}"; then
         exit 0
     fi
-    msg="omarchy pkg aur add failed to install AUR packages."
+    failed_helpers+=("omarchy pkg aur add")
 fi
 
-echo "$msg" >&2
+if [[ ${#failed_helpers[@]} -gt 0 ]]; then
+    echo "AUR install failed; every attempted helper failed: ${failed_helpers[*]}" >&2
+else
+    echo "No AUR helper found. Run ./arch-setup first." >&2
+fi
 exit 1
