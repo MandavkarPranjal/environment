@@ -1,0 +1,105 @@
+{
+  "bar": {
+    "centerAnchor": "omarchy.clock",
+    "layout": {
+      "center": [
+        {
+          "id": "omarchy.indicators"
+        },
+        {
+          "id": "omarchy.keyboard-layout"
+        },
+        {
+          "id": "omarchy.weather"
+        },
+        {
+          "id": "omarchy.clock"
+        },
+        {
+          "id": "0xrichardh.gcal-events"
+        },
+        {
+          "id": "omarchy.system-update"
+        },
+        {
+          "id": "omarchy.spacer"
+        },
+        {
+          "id": "leomoon-studios.omarchy-screencast-keys"
+        }
+      ],
+      "left": [
+        {
+          "id": "omarchy.menu"
+        },
+        {
+          "id": "omarchy.workspaces"
+        }
+      ],
+      "right": [
+        {
+          "id": "omarchy.tray"
+        },
+        {
+          "id": "dev.egoist.network-throughput"
+        },
+        {
+          "id": "mandavkarpranjal.cam-preview"
+        },
+        {
+          "id": "omaconnect"
+        },
+        {
+          "id": "stappmus.activity-monitor"
+        },
+        {
+          "id": "omarchy.tailscale"
+        },
+        {
+          "id": "omarchy.agents"
+        },
+        {
+          "id": "omarchy.bluetooth"
+        },
+        {
+          "id": "omarchy.network"
+        },
+        {
+          "id": "omarchy.audio"
+        },
+        {
+          "id": "omarchy.monitor"
+        },
+        {
+          "id": "omarchy.power"
+        }
+      ]
+    },
+    "position": "top",
+    "transparent": false
+  },
+  "cloneSourceRestores": [
+    "burninc0de.lock",
+    "farangkao.emojis-nerd"
+  ],
+  "disabledPlugins": [
+    "omarchy.lock",
+    "omarchy.emojis"
+  ],
+  "env": {
+    "QS_SEC_AUR_MALWARE": "__HOME__/.config/omarchy/plugins/io.github.elynch303.security-scan/AUR-Malware/check-atomic-arch_new.sh"
+  },
+  "idle": {
+    "lock": 300,
+    "screensaver": 150
+  },
+  "plugins": [
+    {
+      "id": "burninc0de.lock"
+    },
+    {
+      "id": "farangkao.emojis-nerd"
+    }
+  ],
+  "version": 1
+}

@@ -1,0 +1,41 @@
+#!/usr/bin/env bash
+set -uo pipefail
+
+script_dir="$(cd "$(dirname "${BASH_SOURCE[0]}")" &> /dev/null && pwd)"
+cd "$script_dir" || exit 1
+
+failures=()
+failed() {
+    failures+=("$1")
+    echo "FAILED: $1" >&2
+}
+
+if ! command -v yay > /dev/null 2>&1; then
+    if command -v omarchy > /dev/null 2>&1; then
+        echo "yay not found, installing via omarchy..."
+        omarchy pkg aur add yay || failed "install yay"
+    else
+        echo "yay not found, run ./arch-setup first." >&2
+        failed "install yay"
+    fi
+fi
+
+step() {
+    echo
+    echo "==> $1"
+    shift
+    "$@" || failed "$*"
+}
+
+step "stowing config" ./install-config
+step "native packages" ./run pacman
+step "aur packages" ./run yay
+step "flatpak apps" ./run flatpak
+step "omarchy (plugins, bar, theme, hooks)" ./run omarchy
+
+echo
+if [[ ${#failures[@]} -gt 0 ]]; then
+    echo "Restore finished with failures: ${failures[*]}" >&2
+    exit 1
+fi
+echo "Restore complete."

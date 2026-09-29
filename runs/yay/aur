@@ -1,0 +1,38 @@
+#!/usr/bin/env bash
+set -uo pipefail
+
+script_dir="$(cd "$(dirname "${BASH_SOURCE[0]}")" &> /dev/null && pwd)"
+list_file="$script_dir/aur.list"
+
+pkgs=()
+if [[ -f "$list_file" ]]; then
+    mapfile -t pkgs < <(grep -vE '^\s*(#|$)' "$list_file")
+fi
+
+if [[ ${#pkgs[@]} -eq 0 ]]; then
+    echo "No AUR packages in aur.list."
+    exit 0
+fi
+
+echo "Installing ${#pkgs[@]} AUR packages..."
+
+if command -v yay > /dev/null 2>&1; then
+    if yay -S --needed --noconfirm "${pkgs[@]}"; then
+        exit 0
+    fi
+fi
+
+if command -v paru > /dev/null 2>&1; then
+    if paru -S --needed --noconfirm "${pkgs[@]}"; then
+        exit 0
+    fi
+fi
+
+if command -v omarchy > /dev/null 2>&1; then
+    if omarchy pkg aur add "${pkgs[@]}"; then
+        exit 0
+    fi
+fi
+
+echo "No working AUR helper. Run ./arch-setup first." >&2
+exit 1

@@ -1,0 +1,19 @@
+#!/usr/bin/env bash
+set -uo pipefail
+
+script_dir="$(cd "$(dirname "${BASH_SOURCE[0]}")" &> /dev/null && pwd)"
+src="$script_dir/omarchy-menu.jsonc"
+dst="$HOME/.config/omarchy/extensions/omarchy-menu.jsonc"
+
+if [[ ! -f "$src" ]]; then
+    echo "No omarchy-menu.jsonc snapshot found."
+    exit 0
+fi
+
+mkdir -p "$(dirname "$dst")"
+cp "$src" "$dst"
+echo "Menu restored."
+
+if command -v omarchy > /dev/null 2>&1; then
+    omarchy restart shell || echo "warning: could not restart omarchy shell"
+fi

@@ -1,0 +1,27 @@
+#!/usr/bin/env bash
+set -uo pipefail
+
+script_dir="$(cd "$(dirname "${BASH_SOURCE[0]}")" &> /dev/null && pwd)"
+list_file="$script_dir/packages.list"
+
+pkgs=()
+if [[ -f "$list_file" ]]; then
+    mapfile -t pkgs < <(grep -vE '^\s*(#|$)' "$list_file")
+fi
+
+if [[ ${#pkgs[@]} -eq 0 ]]; then
+    echo "No packages in packages.list."
+    exit 0
+fi
+
+echo "Installing ${#pkgs[@]} packages..."
+if sudo pacman -S --needed --noconfirm "${pkgs[@]}"; then
+    exit 0
+fi
+
+echo "Bulk install failed, retrying per package..."
+failed=0
+for pkg in "${pkgs[@]}"; do
+    sudo pacman -S --needed --noconfirm "$pkg" || { echo "failed: $pkg"; failed=1; }
+done
+exit "$failed"

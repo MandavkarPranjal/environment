@@ -1,0 +1,19 @@
+#!/usr/bin/env bash
+set -uo pipefail
+
+script_dir="$(cd "$(dirname "${BASH_SOURCE[0]}")" &> /dev/null && pwd)"
+src="$script_dir/shell.json"
+dst="$HOME/.config/omarchy/shell.json"
+
+if [[ ! -f "$src" ]]; then
+    echo "No shell.json snapshot found."
+    exit 0
+fi
+
+mkdir -p "$(dirname "$dst")"
+sed "s|__HOME__|$HOME|g" "$src" > "$dst"
+echo "Bar layout restored."
+
+if command -v omarchy > /dev/null 2>&1; then
+    omarchy restart shell || echo "warning: could not restart omarchy shell"
+fi

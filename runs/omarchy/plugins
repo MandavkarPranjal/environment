@@ -1,0 +1,30 @@
+#!/usr/bin/env bash
+set -uo pipefail
+
+script_dir="$(cd "$(dirname "${BASH_SOURCE[0]}")" &> /dev/null && pwd)"
+list_file="$script_dir/plugins.list"
+plugins_dir="$HOME/.config/omarchy/plugins"
+
+if [[ ! -f "$list_file" ]]; then
+    echo "No plugins.list found."
+    exit 0
+fi
+
+if ! command -v omarchy > /dev/null 2>&1; then
+    echo "omarchy not found, skipping plugins."
+    exit 0
+fi
+
+mkdir -p "$plugins_dir"
+failed=0
+while IFS=$'\t' read -r id url; do
+    [[ -z "$id" || "$id" == \#* ]] && continue
+    if [[ -d "$plugins_dir/$id" ]]; then
+        echo "ok: $id"
+        continue
+    fi
+    echo "installing: $id"
+    omarchy plugin add "$url" --yes || { echo "failed: $id"; failed=1; }
+done < "$list_file"
+
+exit "$failed"
