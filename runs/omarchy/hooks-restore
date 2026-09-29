@@ -12,10 +12,26 @@ fi
 
 mkdir -p "$dst"
 if command -v rsync > /dev/null 2>&1; then
-    rsync -a --delete --exclude='*.sample' "$src/" "$dst/"
+    rsync -a --delete --exclude='*.sample' "$src/" "$dst/" || {
+        echo "FAILED: restoring hooks" >&2
+        exit 1
+    }
 else
-    find "$dst" -mindepth 1 ! -type d ! -name '*.sample' -delete
+    # Copy first so a failure never leaves the hooks dir wiped, exclude
+    # samples like rsync does, then delete only hooks missing from the
+    # snapshot (never *.sample, which belong to the user).
+    tar -C "$src" --exclude='*.sample' -cf - . | tar -C "$dst" -xf - || {
+        echo "FAILED: restoring hooks" >&2
+        exit 1
+    }
+    while IFS= read -r -d '' rel; do
+        if [[ ! -e "$src/$rel" && ! -L "$src/$rel" ]]; then
+            rm -f "$dst/$rel" || {
+                echo "FAILED: removing stale hook: $rel" >&2
+                exit 1
+            }
+        fi
+    done < <(cd "$dst" && find . -mindepth 1 ! -type d ! -name '*.sample' -printf '%P\0')
     find "$dst" -mindepth 1 -type d -empty -delete
-    cp -a "$src/." "$dst/"
 fi
 echo "Hooks restored."
