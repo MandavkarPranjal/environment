@@ -10,10 +10,8 @@ if [[ ! -f "$src" ]]; then
     exit 0
 fi
 
-mkdir -p "$(dirname "$dst")"
-cp "$src" "$dst"
+mkdir -p "$(dirname "$dst")" && cp "$src" "$dst" || {
+    echo "FAILED: restoring menu" >&2
+    exit 1
+}
 echo "Menu restored."
-
-if command -v omarchy > /dev/null 2>&1; then
-    omarchy restart shell || echo "warning: could not restart omarchy shell"
-fi

@@ -22,6 +22,9 @@ fi
 echo "Bulk install failed, retrying per package..."
 failed=0
 for pkg in "${pkgs[@]}"; do
+    if pacman -Q "$pkg" > /dev/null 2>&1; then
+        continue
+    fi
     sudo pacman -S --needed --noconfirm "$pkg" || { echo "failed: $pkg"; failed=1; }
 done
 exit "$failed"

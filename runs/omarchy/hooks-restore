@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-set -uo pipefail
+set -euo pipefail
 
 script_dir="$(cd "$(dirname "${BASH_SOURCE[0]}")" &> /dev/null && pwd)"
 src="$script_dir/hooks"
@@ -14,7 +14,8 @@ mkdir -p "$dst"
 if command -v rsync > /dev/null 2>&1; then
     rsync -a --delete --exclude='*.sample' "$src/" "$dst/"
 else
+    find "$dst" -mindepth 1 ! -type d ! -name '*.sample' -delete
+    find "$dst" -mindepth 1 -type d -empty -delete
     cp -a "$src/." "$dst/"
-    find "$dst" -name '*.sample' -delete
 fi
 echo "Hooks restored."
