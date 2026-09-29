@@ -86,6 +86,9 @@
     "omarchy.lock",
     "omarchy.emojis"
   ],
+  "env": {
+    "QS_SEC_AUR_MALWARE": "__HOME__/.config/omarchy/plugins/io.github.elynch303.security-scan/AUR-Malware/check-atomic-arch_new.sh"
+  },
   "idle": {
     "lock": 300,
     "screensaver": 150
