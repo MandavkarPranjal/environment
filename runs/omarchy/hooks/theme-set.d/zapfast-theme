@@ -1,5 +1,5 @@
 #!/bin/bash
-# Install with: omarchy hook install theme-set contrib/omarchy/zapfast-theme
+# Install with: omarchy hook install theme-set runs/omarchy/hooks/theme-set.d/zapfast-theme
 set -euo pipefail
 
 # These overrides also let the hook be tested without changing the desktop.

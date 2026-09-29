@@ -15,17 +15,23 @@ if ! command -v omarchy > /dev/null 2>&1; then
     exit 0
 fi
 
+failed=0
+
 if [[ -f "$script_dir/theme.name" ]]; then
     name="$(< "$script_dir/theme.name")"
     if [[ -n "$name" ]]; then
-        omarchy theme set "$name" || { echo "failed to set theme: $name"; exit 1; }
+        omarchy theme set "$name" || {
+            echo "warning: failed to set theme: $name" >&2
+            failed=1
+        }
     fi
 else
     echo "No theme.name snapshot found."
 fi
 
 if [[ -f "$script_dir/background.path" ]]; then
-    bg="$(sed "s|__HOME__|$HOME|g" "$script_dir/background.path")"
+    home_esc="$(printf '%s' "$HOME" | sed 's/[&\\|]/\\&/g')"
+    bg="$(sed "s|__HOME__|$home_esc|g" "$script_dir/background.path")"
     if [[ -e "$bg" ]]; then
         omarchy theme bg set "$bg" || echo "warning: could not set background"
     else
@@ -34,3 +40,5 @@ if [[ -f "$script_dir/background.path" ]]; then
 else
     echo "No background.path snapshot found."
 fi
+
+exit "$failed"

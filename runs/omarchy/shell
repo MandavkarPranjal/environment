@@ -11,7 +11,11 @@ if [[ ! -f "$src" ]]; then
 fi
 
 mkdir -p "$(dirname "$dst")"
-sed "s|__HOME__|$HOME|g" "$src" > "$dst"
+home_esc="$(printf '%s' "$HOME" | sed 's/[&\\|]/\\&/g')"
+sed "s|__HOME__|$home_esc|g" "$src" > "$dst" || {
+    echo "FAILED: restoring bar layout" >&2
+    exit 1
+}
 echo "Bar layout restored."
 
 if command -v omarchy > /dev/null 2>&1; then

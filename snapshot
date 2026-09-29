@@ -7,21 +7,30 @@ home_re="$(printf '%s' "$home_dir" | sed 's/[][\.*^$|&\/]/\\&/g')"
 runs_dir="$script_dir/runs"
 
 tokenize() {
-    sed "s|$home_re|__HOME__|g"
+    sed -e "s|$home_re/|__HOME__/|g" -e "s|$home_re\$|__HOME__|g"
 }
 
 mkdir -p "$runs_dir/pacman" "$runs_dir/yay" "$runs_dir/flatpak" "$runs_dir/omarchy"
 
 if command -v pacman > /dev/null 2>&1; then
-    pacman -Qqen | grep -vE '^(linux|nvidia|lib32-nvidia|vulkan|lib32-vulkan|mesa)' | sort > "$runs_dir/pacman/packages.list" || true
-    echo "pacman: $(wc -l < "$runs_dir/pacman/packages.list") packages -> runs/pacman/packages.list"
-    pacman -Qqem | sort > "$runs_dir/yay/aur.list" || true
-    echo "aur: $(wc -l < "$runs_dir/yay/aur.list") packages -> runs/yay/aur.list"
+    if pacman -Qqen | grep -vE '^(linux(-(lts|zen|hardened|rt|omarchy))?(-headers)?|nvidia[^[:space:]]*|lib32-nvidia[^[:space:]]*|vulkan-(intel|radeon|nouveau)|lib32-vulkan-(intel|radeon)|mesa)$' | sort > "$runs_dir/pacman/packages.list"; then
+        echo "pacman: $(wc -l < "$runs_dir/pacman/packages.list") packages -> runs/pacman/packages.list"
+    else
+        echo "snapshot: warning: failed to list native packages" >&2
+    fi
+    if pacman -Qqem | sort > "$runs_dir/yay/aur.list"; then
+        echo "aur: $(wc -l < "$runs_dir/yay/aur.list") packages -> runs/yay/aur.list"
+    else
+        echo "snapshot: warning: failed to list AUR packages" >&2
+    fi
 fi
 
 if command -v flatpak > /dev/null 2>&1; then
-    flatpak list --app --columns=application,origin | sort -u > "$runs_dir/flatpak/apps.list" || true
-    echo "flatpak: $(wc -l < "$runs_dir/flatpak/apps.list") apps -> runs/flatpak/apps.list"
+    if flatpak list --app --columns=application,origin | sort -u > "$runs_dir/flatpak/apps.list"; then
+        echo "flatpak: $(wc -l < "$runs_dir/flatpak/apps.list") apps -> runs/flatpak/apps.list"
+    else
+        echo "snapshot: warning: failed to list flatpak apps" >&2
+    fi
 fi
 
 omarchy_dir="$home_dir/.config/omarchy"
@@ -53,8 +62,12 @@ if [[ -d "$omarchy_dir" ]]; then
     fi
 
     if command -v omarchy > /dev/null 2>&1; then
-        omarchy theme current > "$runs_dir/omarchy/theme.name"
-        echo "omarchy: theme '$(< "$runs_dir/omarchy/theme.name")' -> runs/omarchy/theme.name"
+        if omarchy theme current > "$runs_dir/omarchy/theme.name" 2>/dev/null && [[ -s "$runs_dir/omarchy/theme.name" ]]; then
+            echo "omarchy: theme '$(< "$runs_dir/omarchy/theme.name")' -> runs/omarchy/theme.name"
+        else
+            rm -f "$runs_dir/omarchy/theme.name"
+            echo "snapshot: warning: could not read current theme" >&2
+        fi
     fi
 
     if [[ -f "$home_dir/.local/state/omarchy/current/background" ]]; then

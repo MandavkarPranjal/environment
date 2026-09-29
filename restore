@@ -10,12 +10,12 @@ failed() {
     echo "FAILED: $1" >&2
 }
 
-if ! command -v yay > /dev/null 2>&1; then
+if ! command -v yay > /dev/null 2>&1 && ! command -v paru > /dev/null 2>&1; then
     if command -v omarchy > /dev/null 2>&1; then
-        echo "yay not found, installing via omarchy..."
+        echo "No AUR helper (yay/paru), installing yay via omarchy..."
         omarchy pkg aur add yay || failed "install yay"
     else
-        echo "yay not found, run ./arch-setup first." >&2
+        echo "No AUR helper (yay/paru), run ./arch-setup first." >&2
         failed "install yay"
     fi
 fi
