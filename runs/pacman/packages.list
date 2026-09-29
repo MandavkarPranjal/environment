@@ -99,6 +99,7 @@ libyaml
 limine
 limine-mkinitcpio-hook
 limine-snapper-sync
+linux-firmware
 llvm
 localsend
 lsd
