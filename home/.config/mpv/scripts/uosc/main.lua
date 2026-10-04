@@ -174,7 +174,9 @@ local config_defaults = {
 }
 config = {
 	version = uosc_version,
-	open_subtitles_api_key = 'b0rd16N0bp7DETMpO4pYZwIqmQkZbYQr',
+	-- API key intentionally empty: subtitles come from the files themselves.
+	-- See home/.config/mpv/README or OMARCHY.md.
+	open_subtitles_api_key = '',
 	open_subtitles_agent = 'uosc v' .. uosc_version,
 	-- sets max rendering frequency in case the
 	-- native rendering frequency could not be detected
@@ -856,7 +858,6 @@ bind_command('subtitles', create_select_tracklist_type_menu_opener({
 	enable_prop = 'sub-visibility',
 	secondary = {prop = 'secondary-sid', icon = 'vertical_align_top', enable_prop = 'secondary-sub-visibility'},
 	load_command = 'script-binding uosc/load-subtitles',
-	download_command = 'script-binding uosc/download-subtitles',
 }))
 bind_command('audio', create_select_tracklist_type_menu_opener({
 	title = t('Audio'), type = 'audio', prop = 'aid', load_command = 'script-binding uosc/load-audio',

@@ -71,6 +71,30 @@ cp /tmp/thumbfast.conf home/.config/mpv/script-opts/thumbfast.conf
 Options live in `home/.config/mpv/script-opts/{uosc,thumbfast}.conf` — those files
 carry local edits, so check `git diff` before overwriting them.
 
+Layout of `home/.config/mpv`:
+
+| Path                   | Purpose                                                     |
+| ---------------------- | ----------------------------------------------------------- |
+| `mpv.conf`             | GPU/hwdec, subtitle placement, `osc=no` (uosc draws the UI)  |
+| `input.conf`           | keybinds (`Shift+←/→` 30s seek, `` ` `` speed, `Shift+a/s/f`) |
+| `scripts/screenshot.lua` | `s` save window shot, `Shift+v` copy last, `Shift+w` copy frame |
+| `scripts/thumbfast.lua`  | seekbar thumbnail previews (needs `fonts/`)                 |
+| `scripts/uosc/`        | vendored uosc 5.13.0                                        |
+| `fonts/`               | uosc icon/texture fonts — **required**                      |
+
+Screenshots go to `~/Pictures/mpv-shot-<timestamp>.png`; override with
+`screenshot_dir` in `script-opts/screenshot.conf`.
+
+### Local patches to vendored uosc
+
+Two edits are applied to `scripts/uosc/main.lua` and are **lost on re-download**:
+
+1. `open_subtitles_api_key = ''` — uosc ships a hardcoded OpenSubtitles key.
+2. `download_command` removed from the subtitles menu opener — subtitles come
+   from the files themselves, so the downloader is not wanted.
+
+Re-apply both after any uosc update.
+
 ## Not synced
 
 - `~/.config/omarchy/calendars.json` — private feed URL (secret)
