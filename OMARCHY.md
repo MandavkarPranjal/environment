@@ -45,6 +45,32 @@ git add -A && git commit -m "snapshot"
 ./run omarchy --dry       # preview without changing anything
 ```
 
+## Updating mpv UI scripts
+
+`home/.config/mpv` ships a vendored copy of **uosc** (UI) and **thumbfast**
+(seekbar thumbnail previews), which give mpv a YouTube-style hover preview.
+
+`home/.config/mpv/fonts/uosc_{icons.otf,textures.ttf}` are required — without
+them uosc renders every button as overlapping raw text instead of icons.
+To update them, re-download into the repo and re-stow:
+
+```bash
+cd ~/dev/environment
+curl -L -o /tmp/uosc.zip https://github.com/tomasklaen/uosc/releases/latest/download/uosc.zip
+rm -rf home/.config/mpv/scripts/uosc && unzip -q /tmp/uosc.zip -d /tmp/uosc-dl
+cp -r /tmp/uosc-dl/scripts/uosc home/.config/mpv/scripts/
+cp -f /tmp/uosc-dl/fonts/uosc_icons.otf /tmp/uosc-dl/fonts/uosc_textures.ttf home/.config/mpv/fonts/
+rm -f home/.config/mpv/scripts/uosc/bin/ziggy-darwin home/.config/mpv/scripts/uosc/bin/ziggy-windows.exe
+curl -L -o home/.config/mpv/scripts/thumbfast.lua https://raw.githubusercontent.com/po5/thumbfast/master/thumbfast.lua
+curl -L -o home/.config/mpv/script-opts/uosc.conf https://github.com/tomasklaen/uosc/releases/latest/download/uosc.conf
+curl -L -o /tmp/thumbfast.conf https://raw.githubusercontent.com/po5/thumbfast/master/thumbfast.conf
+cp /tmp/thumbfast.conf home/.config/mpv/script-opts/thumbfast.conf
+./install-config
+```
+
+Options live in `home/.config/mpv/script-opts/{uosc,thumbfast}.conf` — those files
+carry local edits, so check `git diff` before overwriting them.
+
 ## Not synced
 
 - `~/.config/omarchy/calendars.json` — private feed URL (secret)
