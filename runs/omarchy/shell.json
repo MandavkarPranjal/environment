@@ -47,7 +47,8 @@
           "id": "mandavkarpranjal.cam-preview"
         },
         {
-          "id": "omaconnect"
+          "id": "omakdeconnect",
+          "preferredDeviceId": "ab460896178f4e7c898b374570bcfb37"
         },
         {
           "id": "stappmus.activity-monitor"
@@ -71,7 +72,8 @@
           "id": "omarchy.monitor"
         },
         {
-          "id": "omarchy.power"
+          "id": "omarchy.power",
+          "showPercentage": false
         }
       ]
     },
