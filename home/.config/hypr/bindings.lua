@@ -73,10 +73,9 @@ end)
 o.bind("SUPER + D", "Wayscriber", "wayscriber --daemon-toggle")
 
 -- ----------------------------------------------------------------- Launchers
--- ALT + SPACE opens the app launcher (old omarchy-launch-walker / launch-app);
--- SUPER + SPACE and SUPER + ALT + SPACE open the Omarchy root menu.
+-- ALT + SPACE, SUPER + SPACE and SUPER + ALT + SPACE all open the Omarchy root menu.
 hl.unbind("ALT + SPACE")
-o.bind("ALT + SPACE", "Launch apps", "omarchy-menu toggle apps")
+o.bind("ALT + SPACE", "Omarchy menu", "omarchy-menu toggle root")
 hl.unbind("SUPER + SPACE")
 o.bind("SUPER + SPACE", "Omarchy menu", "omarchy-menu toggle root")
 hl.unbind("SUPER + ALT + SPACE")
