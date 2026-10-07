@@ -1,0 +1,16 @@
+#!/usr/bin/env bash
+# T3 Code launcher. Generated into ~/.local/bin by runs/curl/install-stubs.
+#
+# The AppImage has no public download URL, so runs/curl/appimages cannot fetch
+# it — get it from t3.chat and drop it at ~/AppImages/t3_code_alpha.appimage.
+set -euo pipefail
+
+appimage="$HOME/AppImages/t3_code_alpha.appimage"
+
+if [[ ! -f "$appimage" ]]; then
+    echo "t3code: $appimage is missing." >&2
+    echo "T3 Code has no public AppImage download; fetch it from t3.chat." >&2
+    exit 1
+fi
+
+exec "$appimage" "$@"

@@ -1,0 +1,39 @@
+# Tools installed with a `curl … | bash` bootstrapper.
+#
+# Format: id | install url | presence check | sudo
+#   - id     is only used in log lines.
+#   - url    is fetched to a temp file and executed with bash.
+#   - check  is evaluated with bash; a zero exit means "already installed",
+#            so the installer is skipped.
+#   - sudo   is "yes" for installers that write outside $HOME.
+#
+# Read by runs/curl/install-tools. Edit here, then commit.
+
+entire        | https://entire.io/install.sh                                                              | command -v entire                    |
+entire-brain  | https://raw.githubusercontent.com/entireio/entire-brain/main/scripts/get-brain.sh             | command -v entire-brain              |
+opencode2     | https://opencode.ai/v2/install                                                             | test -x "$HOME/.opencode/bin/opencode" |
+fx            | https://fx.sh/setup.sh                                                                      | command -v fx                       |
+nub           | https://nubjs.com/install.sh                                                               | test -x "$HOME/.nub/bin/nub"         |
+vite-plus     | https://vite.plus                                                                           | test -x "$HOME/.vite-plus/bin/vp"   |
+cursor-agent  | https://cursor.com/install                                                                  | command -v cursor-agent             |
+moviebox-tui  | https://raw.githubusercontent.com/mesamirh/MovieBox-Tui/main/install.sh                      | command -v moviebox-tui             |
+agy           | https://antigravity.google/cli/install.sh                                                     | command -v agy                      |
+grok          | https://x.ai/cli/install.sh                                                                   | test -x "$HOME/.grok/bin/grok"      |
+netbird       | https://pkgs.netbird.io/install.sh                                                          | command -v netbird                  | yes
+
+# Already covered elsewhere, deliberately not repeated here:
+#   zed       -> runs/yay/zed (same install.sh)
+#   tailscale -> runs/pacman/packages.list
+#
+# agy and grok ALSO have mise copies, but the curl builds win on PATH and are
+# the ones actually running:
+#   agy   ~/.local/bin/agy                          1.1.12  <- used
+#         ~/.local/share/mise/.../antigravity/agy    1.2.14  <- shadowed
+#   grok  ~/.grok/bin/grok                          1.0.46  <- used, because the
+#         ~/.local/bin/grok (mise stub)              1.0.46    grok PATH line is
+#                                                             added after the
+#                                                             ~/.local/bin line
+#                                                             earlier in .zshrc
+# To go back to the mise builds instead: drop the agy entry from
+# home/.config/mise/config.toml and delete ~/.local/bin/agy; then remove the
+# grok installer block from .zshrc (it owns the fpath/compinit lines too).

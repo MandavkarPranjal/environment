@@ -1,0 +1,20 @@
+#!/usr/bin/env bash
+# LosslessCut launcher. Generated into ~/.local/bin by runs/curl/install-stubs.
+#
+# Deliberately NOT stowed from home/: install-config runs `stow --adopt`, which
+# overwrites a repo file with whatever is live at the target. A stub stowed that
+# way gets clobbered on the next ./install-config, so these are generated.
+set -euo pipefail
+
+appimage="$HOME/AppImages/losslesscut.appimage"
+
+if [[ ! -f "$appimage" ]]; then
+    echo "losslesscut: $appimage is missing." >&2
+    echo "Run './run curl' in ~/dev/environment to download it." >&2
+    exit 1
+fi
+
+# No --no-sandbox: LosslessCut's AppImage rejects it and exits 9 with
+# "bad option". The old stub also piped stderr to /dev/null, which hid that,
+# so GUI launches through losslesscut.desktop were failing silently.
+exec env DESKTOPINTEGRATION=1 "$appimage" "$@"

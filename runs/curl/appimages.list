@@ -1,0 +1,23 @@
+# AppImages installed into ~/AppImages.
+#
+# Format: file name | download url | presence check
+#   - {version} is replaced with the latest release tag of the GitHub repo in
+#     the url, {arch} with x86_64 or arm64, matching uname -m.
+#   - A url without {version} must point at a stable asset name under
+#     releases/latest/download/ (GitHub only redirects those).
+#   - presence check is evaluated with bash; zero exit means "skip".
+#
+# Read by runs/curl/appimages. Edit here, then commit.
+
+helium.appimage      | https://github.com/imputnet/helium-linux/releases/download/{version}/helium-{version}-{arch}.AppImage | test -x "$HOME/AppImages/helium.appimage"
+losslesscut.appimage | https://github.com/mifi/lossless-cut/releases/latest/download/LosslessCut-linux-{arch}.AppImage         | test -x "$HOME/AppImages/losslesscut.appimage"
+
+# No public download URL, so this one cannot be automated. Fetch the AppImage
+# from t3.chat, drop it at ~/AppImages/t3_code_alpha.appimage, then:
+#   ./run curl
+# t3_code_alpha.appimage | (manual — t3.chat) | test -x "$HOME/AppImages/t3_code_alpha.appimage"
+
+# LosslessCut and T3 Code need launcher stubs in ~/.local/bin for the CLI
+# entry points. They are stowed from home/, not generated here:
+#   home/.local/bin/losslesscut
+#   home/.local/bin/t3code

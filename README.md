@@ -10,7 +10,7 @@ See [OMARCHY.md](OMARCHY.md) for the full Omarchy setup guide.
 
 ```bash
 ./arch-setup   # only if yay is missing (pacman + yay bootstrap)
-./restore      # stow config + packages + flatpak + omarchy (plugins, bar positions, theme, hooks)
+./restore      # stow config + packages + flatpak + curl tools + omarchy (plugins, bar positions, theme, hooks)
 ```
 
 ## After changing this machine
@@ -26,6 +26,7 @@ git add -A && git commit -m "snapshot"
 ## What is synced
 
 - native packages (`runs/pacman/packages.list`), AUR (`runs/yay/aur.list`), flatpak apps (`runs/flatpak/apps.list`)
+- curl-bootstrapped CLIs (`runs/curl/tools.list`) and AppImages (`runs/curl/appimages.list`)
 - stowed dotfiles (`home/`)
 - omarchy: bar/widget layout (`shell.json`), shell plugins, menu, theme + background, hooks
 
@@ -35,3 +36,4 @@ git add -A && git commit -m "snapshot"
 - `displays.json` / monitor layout — per-machine
 - app data, browser profiles, vaults
 - `~/.oh-my-zsh` — installed by `runs/yay/zsh`
+- `t3_code_alpha.appimage` — no public download URL, install by hand

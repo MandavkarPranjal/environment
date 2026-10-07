@@ -1,0 +1,110 @@
+#!/usr/bin/env bash
+set -uo pipefail
+
+# Installs AppImages listed in appimages.list into ~/AppImages.
+#
+# Downloads only when the presence check fails, so re-running is cheap.
+# Exits non-zero if any download fails, which is what ./run reports.
+
+script_dir="$(cd "$(dirname "${BASH_SOURCE[0]}")" &> /dev/null && pwd)"
+list_file="$script_dir/appimages.list"
+
+if [[ ! -f "$list_file" ]]; then
+    echo "No appimages.list found."
+    exit 0
+fi
+
+if ! command -v curl > /dev/null 2>&1; then
+    echo "curl not installed, skipping AppImages." >&2
+    exit 0
+fi
+
+dest_dir="$HOME/AppImages"
+mkdir -p "$dest_dir"
+
+case "$(uname -m)" in
+    x86_64 | amd64) arch="x86_64" ;;
+    aarch64 | arm64) arch="arm64" ;;
+    *)
+        echo "Unsupported architecture: $(uname -m), skipping AppImages." >&2
+        exit 0
+        ;;
+esac
+
+checked=0
+installed=0
+failed=0
+
+while IFS='|' read -r name url check; do
+    name="$(printf '%s' "${name#"${name%%[![:space:]]*}"}" | sed 's/[[:space:]]*$//')"
+    url="$(printf '%s' "${url#"${url%%[![:space:]]*}"}" | sed 's/[[:space:]]*$//')"
+    check="$(printf '%s' "${check#"${check%%[![:space:]]*}"}" | sed 's/[[:space:]]*$//')"
+
+    [[ -z "$name" || "$name" == \#* || -z "$url" ]] && continue
+
+    checked=$((checked + 1))
+
+    if [[ -n "$check" ]] && eval "$check" > /dev/null 2>&1; then
+        echo "ok: $name"
+        continue
+    fi
+
+    # {version} needs the repo's latest release tag; resolved once per entry
+    # that uses it so that a static-name url costs no API call.
+    final_url="$url"
+    if [[ "$url" == *'{version}'* ]]; then
+        if [[ ! "$url" =~ github\.com[:/]+([A-Za-z0-9_.-]+)/([A-Za-z0-9_.-]+) ]]; then
+            echo "failed: $name (cannot derive repo from url for {version})" >&2
+            failed=$((failed + 1))
+            continue
+        fi
+        owner="${BASH_REMATCH[1]}"
+        repo="${BASH_REMATCH[2]}"
+        version="$(curl -fsSL --max-time 30 "https://api.github.com/repos/$owner/$repo/releases/latest" 2>/dev/null |
+            sed -n 's/.*"tag_name":[[:space:]]*"\([^"]*\)".*/\1/p' | head -1)"
+        if [[ -z "$version" ]]; then
+            echo "failed: $name (could not resolve latest release of $owner/$repo)" >&2
+            failed=$((failed + 1))
+            continue
+        fi
+        final_url="${url//\{version\}/$version}"
+    fi
+
+    final_url="${final_url//\{arch\}/$arch}"
+
+    dest="$dest_dir/$name"
+    # Download beside the target and move into place, so an interrupted or
+    # failed download never leaves a half-written AppImage that the presence
+    # check would treat as installed.
+    if ! curl -fL --max-time 900 --progress-bar "$final_url" -o "$dest.part"; then
+        rm -f "$dest.part"
+        echo "failed: $name (download error)" >&2
+        failed=$((failed + 1))
+        continue
+    fi
+
+    if [[ ! -s "$dest.part" ]]; then
+        rm -f "$dest.part"
+        echo "failed: $name (downloaded file was empty)" >&2
+        failed=$((failed + 1))
+        continue
+    fi
+
+    chmod +x "$dest.part"
+    mv -f "$dest.part" "$dest" || {
+        rm -f "$dest.part"
+        echo "failed: $name (could not move into place)" >&2
+        failed=$((failed + 1))
+        continue
+    }
+
+    installed=$((installed + 1))
+    echo "installed: $name"
+done < "$list_file"
+
+echo "$checked AppImage(s) checked, $installed installed."
+
+if (( failed > 0 )); then
+    echo "$failed AppImage(s) failed." >&2
+    exit 1
+fi

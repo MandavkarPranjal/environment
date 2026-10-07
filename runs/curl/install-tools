@@ -1,0 +1,70 @@
+#!/usr/bin/env bash
+set -uo pipefail
+
+# Installs curl-bootstrapped CLIs listed in tools.list.
+#
+# Each entry is skipped when its presence check succeeds, so re-running is
+# cheap and safe. A failing installer does not stop the others; the script
+# exits non-zero if any failed, which is what ./run reports.
+
+script_dir="$(cd "$(dirname "${BASH_SOURCE[0]}")" &> /dev/null && pwd)"
+list_file="$script_dir/tools.list"
+
+if [[ ! -f "$list_file" ]]; then
+    echo "No tools.list found."
+    exit 0
+fi
+
+tmp_script="$(mktemp)"
+trap 'rm -f "$tmp_script"' EXIT
+
+checked=0
+installed=0
+failed=0
+
+while IFS='|' read -r id url check sudo; do
+    # trim surrounding whitespace left by the pipe-separated columns
+    id="$(printf '%s' "${id#"${id%%[![:space:]]*}"}" | sed 's/[[:space:]]*$//')"
+    url="$(printf '%s' "${url#"${url%%[![:space:]]*}"}" | sed 's/[[:space:]]*$//')"
+    check="$(printf '%s' "${check#"${check%%[![:space:]]*}"}" | sed 's/[[:space:]]*$//')"
+    sudo="$(printf '%s' "${sudo#"${sudo%%[![:space:]]*}"}" | sed 's/[[:space:]]*$//')"
+
+    [[ -z "$id" || "$id" == \#* || -z "$url" ]] && continue
+
+    checked=$((checked + 1))
+
+    if [[ -n "$check" ]] && eval "$check" > /dev/null 2>&1; then
+        echo "ok: $id"
+        continue
+    fi
+
+    echo "installing: $id"
+
+    if ! curl -fsSL --max-time 120 "$url" -o "$tmp_script"; then
+        echo "failed: $id (could not fetch $url)" >&2
+        failed=$((failed + 1))
+        continue
+    fi
+
+    if [[ "$sudo" == "yes" ]]; then
+        sudo bash "$tmp_script"
+    else
+        bash "$tmp_script"
+    fi
+
+    if (( $? != 0 )); then
+        echo "failed: $id (installer exited non-zero)" >&2
+        failed=$((failed + 1))
+        continue
+    fi
+
+    installed=$((installed + 1))
+    echo "installed: $id"
+done < "$list_file"
+
+echo "$checked tool(s) checked, $installed installed."
+
+if (( failed > 0 )); then
+    echo "$failed tool(s) failed." >&2
+    exit 1
+fi

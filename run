@@ -3,7 +3,7 @@
 script_dir="$(cd "$(dirname "${BASH_SOURCE[0]}")" &> /dev/null && pwd)"
 
 if [ -z "$1" ]; then
-    echo "Usage: $0 <apt|pacman|yay|flatpak|omarchy> [--dry] [skip-filter1] [skip-filter2] ..."
+    echo "Usage: $0 <apt|pacman|yay|flatpak|curl|omarchy> [--dry] [skip-filter1] [skip-filter2] ..."
     exit 1
 fi
 

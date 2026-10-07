@@ -21,7 +21,8 @@ cd ~/dev/environment
 3. `./run pacman` — native packages (`--needed`, skips already-installed)
 4. `./run yay` — AUR packages, plus the machine setup scripts in `runs/yay/` (zsh/oh-my-zsh, docker, dev tools, ...)
 5. `./run flatpak` — adds flathub remote + flatpak apps
-6. `./run omarchy` — hooks, menu, shell plugins, bar layout (`shell.json` widget positions), theme + background path
+6. `./run curl` — curl-bootstrapped CLIs (`entire`, `opencode2`, `fx`, `nub`, `vp`, `cursor-agent`, `moviebox-tui`, `netbird`) and AppImages
+7. `./run omarchy` — hooks, menu, shell plugins, bar layout (`shell.json` widget positions), theme + background path
 
 It continues past failures and prints a summary at the end.
 Fix any reported failure, then simply re-run `./restore`.
@@ -41,9 +42,65 @@ git add -A && git commit -m "snapshot"
 ./run pacman              # native packages only
 ./run yay                 # AUR packages + runs/yay setup scripts
 ./run flatpak             # flatpak apps only
+./run curl                # curl-bootstrapped CLIs + AppImages
+./run curl install-tools  # just the CLIs, skip the AppImage downloads
 ./run omarchy             # omarchy config (plugins, bar, theme, hooks)
 ./run omarchy --dry       # preview without changing anything
 ```
+
+## curl-installed tools and AppImages
+
+`./run curl` covers what no package manager tracks. Two data files drive it,
+both pipe-separated with `#` comments, edited by hand and committed:
+
+| File                       | Columns                          | Notes                                                       |
+| -------------------------- | -------------------------------- | ----------------------------------------------------------- |
+| `runs/curl/tools.list`     | id, url, presence check, sudo    | `check` gates the install; `sudo` is `yes` for installers writing outside `$HOME` |
+| `runs/curl/appimages.list` | file name, url, presence check   | `{version}` resolves via the GitHub API, `{arch}` from `uname -m` |
+| `runs/curl/stubs/`         | launcher scripts                 | copied to `~/.local/bin` by `install-stubs`                   |
+
+Three scripts read them — `install-tools` runs the bootstrappers, `appimages`
+downloads into `~/AppImages`, `install-stubs` refreshes the launcher stubs.
+All are idempotent: anything whose presence check passes is skipped, so
+re-running `./run curl` is cheap. A failure in one entry does not stop the
+rest; the step exits non-zero if anything failed.
+
+AppImage downloads land as `<name>.part` and are moved into place only after a
+complete, non-empty transfer, so an interrupted download never leaves a
+truncated AppImage that the presence check would then treat as installed.
+
+**Not automated here:** `t3_code_alpha.appimage` has no public download URL.
+Fetch it from t3.chat into `~/AppImages/t3_code_alpha.appimage` by hand.
+
+**Deliberately absent from `tools.list`:** `zed` (already in `runs/yay/zed`) and
+`tailscale` (already a pacman package).
+
+### Launcher stubs
+
+`runs/curl/install-stubs` writes the `~/.local/bin` entries for the AppImages,
+from sources in `runs/curl/stubs/`. They are **generated, not stowed**:
+`install-config` runs `stow --adopt`, which overwrites the repo copy of a file
+with whatever is live at the target — so a stub kept under `home/` gets
+replaced by the previous version on the next run. That is correct for dotfiles
+you edit live, wrong for generated files.
+
+Both stubs check for their AppImage and print how to fetch it if missing.
+
+### Two tools mise also installs
+
+`agy` and `grok` have mise copies as well as the curl builds in `tools.list`.
+The curl builds are the ones running:
+
+| Tool  | Used                                | Shadowed                              |
+| ----- | ----------------------------------- | ------------------------------------- |
+| `agy` | `~/.local/bin/agy` 1.1.12           | mise `antigravity-cli` 1.2.14         |
+| `grok`| `~/.grok/bin/grok` 1.0.46           | mise `npm:@xai-official/grok` stub    |
+
+`grok` wins only because its `PATH` line sits *after* the `~/.local/bin` line
+in `.zshrc`. Reordering those silently hands `grok` to mise. Both `tools.list`
+and `.zshrc` carry comments saying so. To go back to the mise builds, drop the
+`agy` entry from `home/.config/mise/config.toml`, delete `~/.local/bin/agy`,
+and remove the grok installer block from `.zshrc`.
 
 ## Updating mpv UI scripts
 
@@ -102,3 +159,12 @@ Re-apply both after any uosc update.
 - app data, browser profiles, vaults
 - `~/.oh-my-zsh` — installed by `runs/yay/zsh`
 - the wallpaper image itself — only the background *path* is recorded. Theme-shipped backgrounds are recreated by `omarchy theme set`; custom wallpapers are not copied to the repo and must already exist on the new PC.
+- mise-installed tools beyond `config.toml` — extra tools the machine accumulated (`aube`, `cmake`, `golangci-lint`, `java`, `node`, `staticcheck`, `uv`, `zig`, `zls`, …) are not in `home/.config/mise/config.toml`. Add the ones you want to keep.
+
+## LosslessCut GUI launches were failing
+
+The old `~/.local/bin/losslesscut` stub passed `--no-sandbox`, which LosslessCut
+rejects — it exits 9 with `bad option`. The stub also piped stderr to
+`/dev/null`, which hid the error, so `losslesscut.desktop` launches failed
+quietly. The stub in `runs/curl/stubs/losslesscut` drops the flag and keeps
+stderr visible.

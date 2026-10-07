@@ -1,0 +1,61 @@
+#!/usr/bin/env bash
+set -uo pipefail
+
+# Installs the ~/.local/bin launcher stubs from runs/curl/stubs/.
+#
+# These are generated, not stowed. install-config runs `stow --adopt`, which
+# overwrites the repo copy of a file with whatever is live at the target, so a
+# stub kept under home/ gets replaced by the previous version on the next run.
+#
+# A stub is rewritten only when its content differs, so re-running is a no-op
+# and an existing symlink is replaced in place.
+
+script_dir="$(cd "$(dirname "${BASH_SOURCE[0]}")" &> /dev/null && pwd)"
+stubs_dir="$script_dir/stubs"
+dest_dir="$HOME/.local/bin"
+
+if [[ ! -d "$stubs_dir" ]]; then
+    echo "No stubs directory found."
+    exit 0
+fi
+
+mkdir -p "$dest_dir"
+
+installed=0
+failed=0
+
+for src in "$stubs_dir"/*; do
+    [[ -f "$src" ]] || continue
+
+    name="$(basename "$src")"
+    dest="$dest_dir/$name"
+
+    if [[ -f "$dest" ]] && ! [[ -L "$dest" ]] && cmp -s "$src" "$dest"; then
+        echo "ok: $name"
+        continue
+    fi
+
+    # A dangling symlink fails -f, so remove before writing.
+    if [[ -L "$dest" ]] || [[ -e "$dest" ]]; then
+        rm -f "$dest" || {
+            echo "failed: $name (could not replace existing entry)" >&2
+            failed=$((failed + 1))
+            continue
+        }
+    fi
+
+    if install -m 0755 "$src" "$dest"; then
+        installed=$((installed + 1))
+        echo "installed: $name"
+    else
+        echo "failed: $name" >&2
+        failed=$((failed + 1))
+    fi
+done
+
+echo "$installed stub(s) installed."
+
+if (( failed > 0 )); then
+    echo "$failed stub(s) failed." >&2
+    exit 1
+fi

@@ -248,13 +248,6 @@ export NVM_DIR="$HOME/.config/nvm"
 export GOPATH="${GOPATH:-$HOME/go}"
 export PATH="$PATH:$GOPATH/bin" # This is to use Go applications installed with `go install`
 
-# Turso
-export PATH="$PATH:/home/himmel/.turso"
-
-# Laravel
-export PATH="/home/himmel/.config/herd-lite/bin:$PATH"
-export PHP_INI_SCAN_DIR="/home/himmel/.config/herd-lite/bin:$PHP_INI_SCAN_DIR"
-
 # pomodoro
 # Requires https://github.com/caarlos0/timer to be installed. spd-say should ship with your distro
 
@@ -555,11 +548,13 @@ export PATH="$HOME/.nub/bin:$PATH"
 # tailscale taildrop
 alias td="sudo tailscale file get ."
 
-# >>> grok installer >>>
+# grok installer
+# Must stay AFTER the ~/.local/bin line above — this is what makes the curl
+# build in ~/.grok/bin win over the mise stub at ~/.local/bin/grok. Moving it
+# earlier silently hands `grok` to mise instead. See runs/curl/tools.list.
 export PATH="$HOME/.grok/bin:$PATH"
 fpath=(~/.grok/completions/zsh $fpath)
 autoload -Uz compinit && compinit -C
-# <<< grok installer <<<
 export QS_SEC_AUR_MALWARE=/home/himmel/.config/omarchy/plugins/io.github.elynch303.security-scan/AUR-Malware/check-atomic-arch_new.sh
 
 # trylle cli

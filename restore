@@ -31,6 +31,7 @@ step "stowing config" ./install-config
 step "native packages" ./run pacman
 step "aur packages" ./run yay
 step "flatpak apps" ./run flatpak
+step "curl tools and appimages" ./run curl
 step "omarchy (plugins, bar, theme, hooks)" ./run omarchy
 
 echo
