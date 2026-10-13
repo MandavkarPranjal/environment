@@ -22,14 +22,16 @@ cd ~/dev/environment
 4. `./run yay` — AUR packages, plus the machine setup scripts in `runs/yay/` (zsh/oh-my-zsh, docker, dev tools, ...)
 5. `./run flatpak` — adds flathub remote + flatpak apps
 6. `./run curl` — curl-bootstrapped CLIs (`entire`, `opencode2`, `fx`, `nub`, `vp`, `cursor-agent`, `moviebox-tui`, `netbird`) and AppImages
-7. `./run omarchy` — hooks, menu, shell plugins, bar layout (`shell.json` widget positions), theme + background path
+7. `./run js` — globally installed bun/npm/pnpm packages from `runs/js/globals.list`
+8. `./run omarchy` — hooks, menu, shell plugins, bar layout (`shell.json` widget positions), theme + background path
 
 It continues past failures and prints a summary at the end.
 Fix any reported failure, then simply re-run `./restore`.
 
 ## After changing this machine
 
-Re-capture packages, flatpak apps, bar layout, plugins, theme and hooks:
+Re-capture packages, flatpak apps, global bun/npm/pnpm packages, bar layout,
+plugins, theme and hooks:
 
 ```bash
 ./snapshot
@@ -44,6 +46,7 @@ git add -A && git commit -m "snapshot"
 ./run flatpak             # flatpak apps only
 ./run curl                # curl-bootstrapped CLIs + AppImages
 ./run curl install-tools  # just the CLIs, skip the AppImage downloads
+./run js                  # global bun/npm/pnpm packages from runs/js/globals.list
 ./run omarchy             # omarchy config (plugins, bar, theme, hooks)
 ./run omarchy --dry       # preview without changing anything
 ```
@@ -71,6 +74,33 @@ truncated AppImage that the presence check would then treat as installed.
 
 **Not automated here:** `t3_code_alpha.appimage` has no public download URL.
 Fetch it from t3.chat into `~/AppImages/t3_code_alpha.appimage` by hand.
+
+## global bun / npm / pnpm packages
+
+`./run js` reinstalls the CLIs you installed globally with a JS package manager.
+One data file drives it, pipe-separated with `#` comments:
+
+| File                    | Columns                    | Notes                                                    |
+| ----------------------- | -------------------------- | -------------------------------------------------------- |
+| `runs/js/globals.list`  | manager, package, version  | `bun`/`npm`/`pnpm`, then a version or `*` for "latest"   |
+| `runs/js/collect.sh`    | –                          | sourced by `./snapshot` and `runs/js/install` to read the installed state |
+
+`./snapshot` only **adds** to this file. A line you already have is never
+rewritten, so pinning a version (including `*`) or dropping a line by hand both
+survive the next snapshot. Delete a line to stop tracking a package; it returns
+only if you reinstall it and snapshot again.
+
+Install is idempotent — an entry already present at the recorded version is
+skipped, so re-running `./run js` is cheap. `*` is passed as the bare package
+name, so each manager applies its own `latest` dist-tag instead of a semver
+range.
+
+Both `./snapshot` and `runs/js/install` add the bun/nvm/pnpm/mise bin
+directories to `PATH` before looking for the managers. A restore runs every step
+in a child process where `.zshrc` has only been stowed, never sourced, so
+without that the managers would appear missing and every package would be
+silently skipped. Packages that ship with the runtime (`npm`, `corepack`,
+`pnpm`) are not tracked.
 
 **Deliberately absent from `tools.list`:** `zed` (already in `runs/yay/zed`) and
 `tailscale` (already a pacman package).

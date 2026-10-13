@@ -20,6 +20,12 @@ fi
 # shellcheck source=runs/js/collect.sh
 source "$script_dir/collect.sh"
 
+# restore runs this in a child process, where the bun/nvm/pnpm/mise paths that
+# .zshrc normally exports are not present (it is stowed, never sourced, during
+# a restore). Load them before the `command -v` checks below, otherwise a fresh
+# machine reports every manager as missing and installs nothing.
+js_runtime_path "$HOME"
+
 trim() {
     local value="$1"
     value="${value#"${value%%[![:space:]]*}"}"
@@ -68,8 +74,12 @@ while IFS='|' read -r manager pkg version; do
         continue
     fi
 
+    # "*" means "whatever the manager installs today": leave the spec as the
+    # bare package so the manager applies its own latest dist-tag. Appending
+    # "@*" would be read as a semver range instead, which can resolve to a
+    # different release than that tag.
     spec="$pkg"
-    [[ -n "$version" ]] && spec="$pkg@$version"
+    [[ -n "$version" && "$version" != "*" ]] && spec="$pkg@$version"
 
     echo "installing: $manager $spec"
     if install_global "$manager" "$spec"; then
