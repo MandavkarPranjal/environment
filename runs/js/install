@@ -1,0 +1,89 @@
+#!/usr/bin/env bash
+set -uo pipefail
+
+# Installs the globally installed bun / npm / pnpm packages tracked in
+# globals.list.
+#
+# Each entry is skipped when the manager already reports that exact version, so
+# re-running is cheap and safe. A version of "*" always reinstalls (whatever the
+# manager considers latest). A failing install does not stop the others; the
+# script exits non-zero if any failed, which is what ./run reports.
+
+script_dir="$(cd "$(dirname "${BASH_SOURCE[0]}")" &> /dev/null && pwd)"
+list_file="$script_dir/globals.list"
+
+if [[ ! -f "$list_file" ]]; then
+    echo "No globals.list found."
+    exit 0
+fi
+
+# shellcheck source=runs/js/collect.sh
+source "$script_dir/collect.sh"
+
+trim() {
+    local value="$1"
+    value="${value#"${value%%[![:space:]]*}"}"
+    printf '%s' "${value%"${value##*[![:space:]]}"}"
+}
+
+install_global() {
+    case "$1" in
+        bun) bun add -g "$2" ;;
+        npm) npm install -g "$2" ;;
+        pnpm) pnpm add -g "$2" ;;
+        *)
+            echo "unknown manager: $1" >&2
+            return 1
+            ;;
+    esac
+}
+
+# "<manager>|<package>" -> "<version>", for the already installed state.
+declare -A current=()
+while IFS='|' read -r manager pkg version; do
+    [[ -z "$manager" || -z "$pkg" ]] && continue
+    current["$manager|$pkg"]="$version"
+done < <(js_collect_globals "$HOME")
+
+checked=0
+installed=0
+failed=0
+
+while IFS='|' read -r manager pkg version; do
+    manager="$(trim "$manager")"
+    pkg="$(trim "$pkg")"
+    version="$(trim "$version")"
+
+    [[ -z "$manager" || "$manager" == \#* || -z "$pkg" || "$pkg" == \#* ]] && continue
+
+    checked=$((checked + 1))
+
+    if ! command -v "$manager" > /dev/null 2>&1; then
+        echo "skipped: $manager not installed ($pkg)"
+        continue
+    fi
+
+    if [[ -n "$version" && "$version" != "*" && "${current["$manager|$pkg"]:-}" == "$version" ]]; then
+        echo "ok: $manager $pkg@$version"
+        continue
+    fi
+
+    spec="$pkg"
+    [[ -n "$version" ]] && spec="$pkg@$version"
+
+    echo "installing: $manager $spec"
+    if install_global "$manager" "$spec"; then
+        installed=$((installed + 1))
+        echo "installed: $manager $spec"
+    else
+        echo "failed: $manager $spec" >&2
+        failed=$((failed + 1))
+    fi
+done < "$list_file"
+
+echo "$checked package(s) checked, $installed installed."
+
+if (( failed > 0 )); then
+    echo "$failed package(s) failed." >&2
+    exit 1
+fi
