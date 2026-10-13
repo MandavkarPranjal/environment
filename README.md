@@ -10,13 +10,13 @@ See [OMARCHY.md](OMARCHY.md) for the full Omarchy setup guide.
 
 ```bash
 ./arch-setup   # only if yay is missing (pacman + yay bootstrap)
-./restore      # stow config + packages + flatpak + curl tools + omarchy (plugins, bar positions, theme, hooks)
+./restore      # stow config + packages + flatpak + curl tools + global JS packages + omarchy (plugins, bar positions, theme, hooks)
 ```
 
 ## After changing this machine
 
-Re-capture your machine state (packages, flatpak apps, omarchy bar layout,
-plugins, theme, hooks), then commit:
+Re-capture your machine state (packages, flatpak apps, global bun/npm/pnpm
+packages, omarchy bar layout, plugins, theme, hooks), then commit:
 
 ```bash
 ./snapshot
@@ -27,6 +27,7 @@ git add -A && git commit -m "snapshot"
 
 - native packages (`runs/pacman/packages.list`), AUR (`runs/yay/aur.list`), flatpak apps (`runs/flatpak/apps.list`)
 - curl-bootstrapped CLIs (`runs/curl/tools.list`) and AppImages (`runs/curl/appimages.list`)
+- global bun/npm/pnpm packages (`runs/js/globals.list`)
 - stowed dotfiles (`home/`)
 - omarchy: bar/widget layout (`shell.json`), shell plugins, menu, theme + background, hooks
 
