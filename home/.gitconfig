@@ -41,5 +41,4 @@
 [coderabbit]
 	machineId = cli/fc5724a0405c4f7ebc7f9acaa06a9e7f
 [credential "https://gitea.com"]
-	helper = 
 	helper = !tea login helper

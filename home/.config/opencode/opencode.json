@@ -3,7 +3,7 @@
   "autoupdate": true,
   "plugin": [
     "@pranjalmandavkar/opencode-notifier@latest",
-    "@tarquinen/opencode-dcp@latest",
+    "@tarquinen/opencode-dcp@latest"
   ],
   "agent": {
       "title":{
