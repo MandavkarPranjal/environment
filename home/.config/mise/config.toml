@@ -7,6 +7,7 @@ opencode = "latest"
 pi = "latest"
 pnpm = "latest"
 ruby = "latest"
+bun = "latest"
 
 [settings]
 idiomatic_version_file_enable_tools = ["ruby"]
