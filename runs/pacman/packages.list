@@ -22,6 +22,7 @@ cups
 cups-filters
 cups-pk-helper
 ddcutil
+dmidecode
 dnsmasq
 docker
 docker-buildx
@@ -188,6 +189,7 @@ unbound
 unzip
 usage
 uwsm
+vhs
 vpl-gpu-rt
 wget
 whois
