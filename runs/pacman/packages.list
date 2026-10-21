@@ -148,6 +148,7 @@ power-profiles-daemon
 python-gobject
 python-poetry-core
 python-protobuf
+qbittorrent
 qemu-user-static-binfmt
 qrencode
 qt5-wayland
