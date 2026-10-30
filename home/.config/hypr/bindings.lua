@@ -138,3 +138,14 @@ o.bind("ALT + XF86AudioMute", "Switch audio output", "omarchy-audio-output-switc
 
 -- t3code
 o.bind("CTRL + SHIFT + 2", "T3Code: capture window", hl.dsp.global("com.t3tools.T3Code:capture-window"))
+
+-- hokum
+hl.unbind("SUPER + comma")
+o.bind("SUPER + comma", "Dismiss last notification", "hokum dismiss")
+hl.unbind("SUPER + SHIFT + comma")
+o.bind("SUPER + SHIFT + comma", "Dismiss all notifications", "hokum dismiss --all")
+hl.unbind("SUPER + CTRL + comma")
+o.bind("SUPER + CTRL + comma", "Toggle silencing notifications", "hokum dnd toggle")
+hl.unbind("SUPER + ALT + comma")
+o.bind("SUPER + ALT + comma", "Invoke last notification", "hokum invoke")
+hl.unbind("SUPER + SHIFT + ALT + comma")
